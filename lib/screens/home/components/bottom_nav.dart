@@ -13,9 +13,10 @@ class CustomBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double imgSize = 30;
     return BottomNavigationBar(
       unselectedItemColor: menuUnselectedColor,
-      currentIndex: controller.selectIndex,
+      currentIndex: controller.tabController.index,
       onTap: (index) {
         controller.changeIndex(index);
       },
@@ -26,53 +27,53 @@ class CustomBottomNav extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Image.asset(
             'assets/images/menu-truyen.png',
-            height: 32,
-            width: 32,
+            height: imgSize,
+            width: imgSize,
           ),
           label: "Truyện",
           activeIcon: Image.asset(
             'assets/images/menu-truyen-active.png',
-            height: 32,
-            width: 32,
+            height: imgSize,
+            width: imgSize,
           ),
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
             'assets/images/menu-tieuthuyet.png',
-            height: 32,
-            width: 32,
+            height: imgSize,
+            width: imgSize,
           ),
           label: "Lịch sử",
           activeIcon: Image.asset(
             'assets/images/menu-tieuthuyet-active.png',
-            height: 32,
-            width: 32,
+            height: imgSize,
+            width: imgSize,
           ),
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
             'assets/images/menu-theodoi.png',
-            height: 32,
-            width: 32,
+            height: imgSize,
+            width: imgSize,
           ),
           label: "Theo dõi",
           activeIcon: Image.asset(
             'assets/images/menu-theodoi-active.png',
-            height: 32,
-            width: 32,
+            height: imgSize,
+            width: imgSize,
           ),
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
             'assets/images/menu-taikhoan.png',
-            height: 32,
-            width: 32,
+            height: imgSize,
+            width: imgSize,
           ),
           label: "Tài khoản",
           activeIcon: Image.asset(
             'assets/images/menu-taikhoan-active.png',
-            height: 32,
-            width: 32,
+            height: imgSize,
+            width: imgSize,
           ),
         )
       ],

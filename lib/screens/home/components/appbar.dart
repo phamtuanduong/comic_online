@@ -43,7 +43,7 @@ class CustomAppBar extends StatelessWidget {
                         horizontal: defaultPadding / 2),
                     child: Image.asset(
                       'assets/images/acction-theloai.png',
-                      color: menuUnselectedColor,
+                      color: Colors.black87,
                       height: 32,
                       width: 32,
                     ),
@@ -54,7 +54,7 @@ class CustomAppBar extends StatelessWidget {
         decoration: BoxDecoration(
             boxShadow: const [
               BoxShadow(
-                  color: Colors.white10, offset: Offset(0, 1), blurRadius: 5)
+                  color: Colors.black12, offset: Offset(0, 1), blurRadius: 5)
             ],
             border: Border(
                 bottom:

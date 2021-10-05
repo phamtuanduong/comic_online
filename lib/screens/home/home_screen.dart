@@ -21,8 +21,9 @@ class HomeScreen extends StatelessWidget {
         body: SafeArea(
           child: Container(
             color: Colors.white10,
-            child: IndexedStack(
-              index: _controller.selectIndex,
+            child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _controller.tabController,
               children: const [
                 TruyenPage(),
                 EmptyPage(),
@@ -37,7 +38,7 @@ class HomeScreen extends StatelessWidget {
           decoration: BoxDecoration(
               boxShadow: const [
                 BoxShadow(
-                    color: Colors.white24, offset: Offset(0, -1), blurRadius: 5)
+                    color: Colors.black12, offset: Offset(0, -1), blurRadius: 5)
               ],
               border: Border(
                   top: BorderSide(
