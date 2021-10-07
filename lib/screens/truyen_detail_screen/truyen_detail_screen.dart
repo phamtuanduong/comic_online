@@ -24,17 +24,27 @@ class TruyenDetailScreen extends StatelessWidget {
                     color: const Color(0xFFEEEEEE),
                     child: Column(
                       children: [
-                        Container(
-                          color: Colors.white,
-                          height: 50,
-                          child: Row(
-                            children: [
-                              Row(
-                                children: _controller.getRateStar(),
-                              )
-                            ],
-                          ),
-                        )
+                        _Content_TopBar(_controller, truyenModel: truyenModel),
+                        Expanded(
+                            child: CustomScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          slivers: [
+                            SliverList(
+                              delegate: SliverChildListDelegate(
+                                [
+                                  Text("Mô tả truyện"),
+                                  Text(truyenModel.description)
+                                ],
+                              ),
+                            ),
+                            SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                    (context, i) =>
+                                        Text(truyenModel.listChapters[i].name),
+                                    childCount:
+                                        truyenModel.listChapters.length)),
+                          ],
+                        ))
                       ],
                     ),
                   )),
@@ -46,6 +56,88 @@ class TruyenDetailScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Content_TopBar extends StatelessWidget {
+  const _Content_TopBar(
+    this.controller, {
+    Key? key,
+    required this.truyenModel,
+  }) : super(key: key);
+
+  final TruyenModel truyenModel;
+  final TruyenDetailController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      height: 50,
+      child: Row(
+        children: [
+          const SizedBox(width: defaultPadding / 2),
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: controller.getRateStar(),
+                ),
+                const SizedBox(height: 2),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text("${truyenModel.rateCount} đánh giá",
+                      style: textSubStyle, textAlign: TextAlign.center),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Tooltip(
+                    message: "Yêu thích",
+                    child: InkWell(
+                      onTap: () {},
+                      child: Image.asset(
+                        (0 == 1)
+                            ? 'assets/images/icon_post_detail_like_selected.png'
+                            : 'assets/images/icon_post_detail_like_default.png',
+                        height: 32,
+                        //điều kiên (?? == 1) hoặc (?? == true)
+                        //Chỗ này BÁCH sẽ xử lý, if là yêu thich color = null ngược lại color = menuUnselect ,
+                        //hay tùy chọn color nào cũng đc (FolleBook Loading)
+                        color: (0 == 1) ? null : menuUnselectedColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: defaultPadding / 2),
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: Row(
+                      children: [
+                        const Icon(Icons.bookmark_add_rounded),
+                        const SizedBox(width: defaultPadding / 8),
+                        Text(
+                          "Theo dõi",
+                          style: textDetailButtonStyle,
+                        )
+                      ],
+                    ),
+                    style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 10)),
+                  )
+                ],
+              )),
+          const SizedBox(width: defaultPadding / 2),
+        ],
       ),
     );
   }
@@ -109,8 +201,9 @@ class _Header extends StatelessWidget {
                     ),
                     const SizedBox(width: defaultPadding / 2),
                     ConstrainedBox(
-                      constraints:
-                          BoxConstraints(maxWidth: _size.width / 1.46 - 30),
+                      constraints: BoxConstraints(
+                          maxWidth: _size.width / 1.46 - 30,
+                          maxHeight: _size.height / 3.6),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,39 +231,46 @@ class _Header extends StatelessWidget {
                             maxLines: 2,
                           ),
                           const SizedBox(height: defaultPadding),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset(
-                                'assets/images/icon_post_edit_keyboard_video.png',
-                                height: _sizeIcon,
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/icon_post_edit_keyboard_video.png',
+                                    height: _sizeIcon,
+                                  ),
+                                  Text(
+                                    truyenModel.totalView.toString(),
+                                    style: textSubStyle,
+                                  ),
+                                  const SizedBox(width: defaultPadding),
+                                  Image.asset(
+                                    'assets/images/icon_post_detail_like_default.png',
+                                    height: _sizeIcon,
+                                    color: iconDetail,
+                                  ),
+                                  Text(
+                                    truyenModel.likeCount.toString(),
+                                    style: textSubStyle,
+                                  ),
+                                  const SizedBox(width: defaultPadding),
+                                  Image.asset(
+                                    'assets/images/icon_collection_btn_normal.png',
+                                    height: _sizeIcon,
+                                    color: iconDetail,
+                                  ),
+                                  Text(
+                                    truyenModel.follow.toString(),
+                                    style: textSubStyle,
+                                  )
+                                ],
                               ),
-                              Text(
-                                truyenModel.totalView.toString(),
-                                style: textSubStyle,
-                              ),
-                              const SizedBox(width: defaultPadding),
-                              Image.asset(
-                                'assets/images/icon_post_detail_like_default.png',
-                                height: _sizeIcon,
-                                color: iconDetail,
-                              ),
-                              Text(
-                                truyenModel.likeCount.toString(),
-                                style: textSubStyle,
-                              ),
-                              const SizedBox(width: defaultPadding),
-                              Image.asset(
-                                'assets/images/icon_collection_btn_normal.png',
-                                height: _sizeIcon,
-                                color: iconDetail,
-                              ),
-                              Text(
-                                truyenModel.follow.toString(),
-                                style: textSubStyle,
-                              )
-                            ],
-                          )
+                            ),
+                          ),
+                          const SizedBox(height: defaultPadding / 4),
                         ],
                       ),
                     )

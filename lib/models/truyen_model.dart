@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:comic_online/models/truyen_chapter.dart';
 import 'package:flutter/foundation.dart';
 
 class TruyenModel {
@@ -18,6 +19,9 @@ class TruyenModel {
   int totalView;
   String lastUpdate;
   List<String> categories;
+
+  List<TruyenChapter> listChapters = [];
+
   TruyenModel({
     required this.id,
     required this.authorID,

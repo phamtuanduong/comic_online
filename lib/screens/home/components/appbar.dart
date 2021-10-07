@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(defaultPadding),
               child: Container(
-                color: Colors.grey.withOpacity(0.25),
+                color: Colors.grey.withOpacity(0.17),
                 child: Row(
                   children: [
                     const SizedBox(width: defaultPadding / 8),

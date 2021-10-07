@@ -1,3 +1,4 @@
+import 'package:comic_online/constants.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,3 +10,6 @@ final textSubStyle =
 
 final textDetailStyle =
     textStyleSearch.copyWith(color: Colors.white, fontSize: 13);
+
+final textDetailButtonStyle = textStyleSearch.copyWith(
+    color: primaryColor, fontSize: 13, fontWeight: FontWeight.normal);
