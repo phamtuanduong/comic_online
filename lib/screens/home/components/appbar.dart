@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: defaultPadding / 2),
                     child: Image.asset(
-                      'assets/images/acction-theloai.png',
+                      'assets/images/action-theloai.png',
                       color: Colors.black87,
                       height: 32,
                       width: 32,

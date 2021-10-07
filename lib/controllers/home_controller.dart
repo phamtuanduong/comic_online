@@ -8,7 +8,7 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
   late TabController tabController;
 
   List<Widget> buildPages() {
-    return [
+    return const [
       TruyenPage(),
       EmptyPage(),
       EmptyPage(),

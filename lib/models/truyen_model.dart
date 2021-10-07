@@ -9,7 +9,7 @@ class TruyenModel {
   String tag;
   String description;
   String avtBook;
-  int rate;
+  double rate;
   int rateCount;
   int follow;
   int likeCount;
@@ -18,7 +18,6 @@ class TruyenModel {
   int totalView;
   String lastUpdate;
   List<String> categories;
-
   TruyenModel({
     required this.id,
     required this.authorID,
@@ -37,6 +36,16 @@ class TruyenModel {
     required this.categories,
   });
 
+  String getCatagory() {
+    String result = "";
+    for (var item in categories) {
+      result += item + ", ";
+    }
+    return result.substring(0, result.length - 2);
+  }
+
+  String getAuthor() => "Đang cập nhật";
+
   TruyenModel copyWith({
     int? id,
     int? authorID,
@@ -44,7 +53,7 @@ class TruyenModel {
     String? tag,
     String? description,
     String? avtBook,
-    int? rate,
+    double? rate,
     int? rateCount,
     int? follow,
     int? likeCount,
@@ -101,7 +110,7 @@ class TruyenModel {
       tag: map['tag'],
       description: map['description'],
       avtBook: map['avtBook'],
-      rate: map['rate'],
+      rate: double.tryParse(map['rate'].toString()) ?? 0.0,
       rateCount: map['rateCount'],
       follow: map['follow'],
       likeCount: map['likeCount'],

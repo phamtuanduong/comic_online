@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
         ),
         body: SafeArea(
           child: Container(
-            color: Colors.white10,
+            color: bgContent,
             child: TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _controller.tabController,
