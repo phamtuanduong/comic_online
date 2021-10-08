@@ -21,33 +21,71 @@ class TruyenDetailScreen extends StatelessWidget {
               Expanded(
                   flex: 6,
                   child: Container(
-                    color: const Color(0xFFEEEEEE),
-                    child: Column(
+                      color: const Color(0xFFEEEEEE),
+                      child: /*Column(
                       children: [
-                        _Content_TopBar(_controller, truyenModel: truyenModel),
+                        _ContentTopBar(_controller, truyenModel: truyenModel),
                         Expanded(
-                            child: CustomScrollView(
-                          physics: const BouncingScrollPhysics(),
-                          slivers: [
-                            SliverList(
-                              delegate: SliverChildListDelegate(
-                                [
-                                  Text("Mô tả truyện"),
-                                  Text(truyenModel.description)
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: defaultPadding / 2),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const _ContentTitle("Mô tả truyện:"),
+                              Text(
+                                truyenModel.description,
+                                style: textStyleSearch.copyWith(
+                                    color: Colors.black87),
+                              ),
+                              const _ContentTitle("Ds chương mới"),
+                              Column(
+                                children: [
+                                  _ContentListChapBanner(
+                                    truyenModel,
+                                    1,
+                                    onPress: () {},
+                                  ),
+                                  _ContentListChapBanner(
+                                    truyenModel,
+                                    2,
+                                    onPress: () {},
+                                  ),
+                                  _ContentListChapBanner(
+                                    truyenModel,
+                                    3,
+                                    onPress: () {},
+                                  )
                                 ],
                               ),
-                            ),
-                            SliverList(
-                                delegate: SliverChildBuilderDelegate(
-                                    (context, i) =>
-                                        Text(truyenModel.listChapters[i].name),
-                                    childCount:
-                                        truyenModel.listChapters.length)),
-                          ],
+                              const _ContentTitle("Bình luận"),
+                              //Sử dụng danh sách hiển thị bình luận
+                              //Giới hạn số bình luận, và gàn scroll tới cuối tự dộng thêm bình mới
+                            ],
+                          ),
                         ))
                       ],
-                    ),
-                  )),
+                    ),*/
+                          CustomScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        slivers: [
+                          _ContentSliverAppBar(_controller,
+                              truyenModel: truyenModel),
+                          _ContentInfomation(_controller,
+                              truyenModel: truyenModel),
+                          const SliverToBoxAdapter(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: defaultPadding / 2),
+                              child: _ContentTitle("Bình luận"),
+                            ),
+                          ),
+                          SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                  (_, i) => Text("bình luận $i"),
+                                  childCount: 20))
+                        ],
+                      ))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -61,8 +99,8 @@ class TruyenDetailScreen extends StatelessWidget {
   }
 }
 
-class _Content_TopBar extends StatelessWidget {
-  const _Content_TopBar(
+class _ContentInfomation extends StatelessWidget {
+  const _ContentInfomation(
     this.controller, {
     Key? key,
     required this.truyenModel,
@@ -73,72 +111,182 @@ class _Content_TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      height: 50,
-      child: Row(
-        children: [
-          const SizedBox(width: defaultPadding / 2),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+    // controller.isDesMaxLine = ;
+    final double maxLine =
+        (truyenModel.description.length * 11.5) / Get.mediaQuery.size.width;
+
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const _ContentTitle("Mô tả truyện:"),
+            Container(
+              padding: const EdgeInsets.all(5),
+              child: Text(
+                truyenModel.description,
+                style: textStyleSearch.copyWith(color: Colors.black87),
+                maxLines: controller.maxLine,
+                overflow: TextOverflow.fade,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(color: menuUnselectedColor.withOpacity(0.5)),
+              ),
+            ),
+            maxLine > 6
+                ? Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                        onPressed: () {
+                          controller.viewDesMore(
+                              int.parse(maxLine.toString().split(".").first));
+                        },
+                        child: Text(
+                          controller.maxLine > 6 ? "Ẩn" : "Xem thêm",
+                          style: textDetailButtonStyle,
+                        )))
+                : const SizedBox(),
+            const _ContentTitle("Ds chương mới"),
+            Column(
               children: [
-                Row(
-                  children: controller.getRateStar(),
-                ),
-                const SizedBox(height: 2),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Text("${truyenModel.rateCount} đánh giá",
-                      style: textSubStyle, textAlign: TextAlign.center),
+                _ContentChapBanner(
+                    truyenModel: truyenModel, index: 1, onPress: () {}),
+                _ContentChapBanner(
+                    truyenModel: truyenModel, index: 1, onPress: () {}),
+                _ContentChapBanner(
+                    truyenModel: truyenModel, index: 1, onPress: () {}),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ContentChapBanner extends StatelessWidget {
+  const _ContentChapBanner({
+    Key? key,
+    required this.truyenModel,
+    required this.index,
+    required this.onPress,
+  }) : super(key: key);
+  final TruyenModel truyenModel;
+  final int index;
+  final Function onPress;
+  @override
+  Widget build(BuildContext context) {
+    String name = "";
+    if (truyenModel.listChapters.length >= index) {
+      name = truyenModel.listChapters[index].name;
+    }
+
+    return truyenModel.listChapters.length >= index
+        ? SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              onPressed: () {},
+              child: Text(name.replaceFirst(name[0], name[0].toUpperCase()),
+                  style: textDetailDsChapStyle),
+              style: TextButton.styleFrom(alignment: Alignment.centerLeft),
+            ),
+          )
+        : const SizedBox();
+  }
+}
+
+class _ContentSliverAppBar extends StatelessWidget {
+  const _ContentSliverAppBar(
+    this.controller, {
+    Key? key,
+    required this.truyenModel,
+  }) : super(key: key);
+
+  final TruyenModel truyenModel;
+  final TruyenDetailController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      pinned: true,
+      leadingWidth: double.maxFinite,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: defaultPadding / 2),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: controller.getRateStar(),
+            ),
+            const SizedBox(height: 2),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Text("${truyenModel.rateCount} đánh giá",
+                  style: textSubStyle, textAlign: TextAlign.center),
+            )
+          ],
+        ),
+      ),
+      actions: [
+        SizedBox(
+          child: Tooltip(
+            message: "Yêu thích",
+            child: InkWell(
+              onTap: () {},
+              child: Image.asset(
+                (0 == 1)
+                    ? 'assets/images/icon_post_detail_like_selected.png'
+                    : 'assets/images/icon_post_detail_like_default.png',
+                height: 28,
+                width: 28,
+                //điều kiên (?? == 1) hoặc (?? == true)
+                //Chỗ này BÁCH sẽ xử lý, if là yêu thich color = null ngược lại color = menuUnselect ,
+                //hay tùy chọn color nào cũng đc (FolleBook Loading)
+                color: (0 == 1) ? null : menuUnselectedColor,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: defaultPadding / 2),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              vertical: defaultPadding / 2, horizontal: defaultPadding / 4),
+          child: OutlinedButton(
+            onPressed: () {},
+            child: Row(
+              children: [
+                const Icon(Icons.bookmark_add_rounded),
+                const SizedBox(width: defaultPadding / 8),
+                Text(
+                  "Theo dõi",
+                  style: textDetailButtonStyle,
                 )
               ],
             ),
+            style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 10)),
           ),
-          Expanded(
-              flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Tooltip(
-                    message: "Yêu thích",
-                    child: InkWell(
-                      onTap: () {},
-                      child: Image.asset(
-                        (0 == 1)
-                            ? 'assets/images/icon_post_detail_like_selected.png'
-                            : 'assets/images/icon_post_detail_like_default.png',
-                        height: 32,
-                        //điều kiên (?? == 1) hoặc (?? == true)
-                        //Chỗ này BÁCH sẽ xử lý, if là yêu thich color = null ngược lại color = menuUnselect ,
-                        //hay tùy chọn color nào cũng đc (FolleBook Loading)
-                        color: (0 == 1) ? null : menuUnselectedColor,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: defaultPadding / 2),
-                  OutlinedButton(
-                    onPressed: () {},
-                    child: Row(
-                      children: [
-                        const Icon(Icons.bookmark_add_rounded),
-                        const SizedBox(width: defaultPadding / 8),
-                        Text(
-                          "Theo dõi",
-                          style: textDetailButtonStyle,
-                        )
-                      ],
-                    ),
-                    style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 10)),
-                  )
-                ],
-              )),
-          const SizedBox(width: defaultPadding / 2),
-        ],
-      ),
+        )
+      ],
+    );
+  }
+}
+
+class _ContentTitle extends StatelessWidget {
+  const _ContentTitle(
+    this.text, {
+    Key? key,
+  }) : super(key: key);
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+          bottom: defaultPadding / 4, top: defaultPadding / 2),
+      child:
+          Text(text, style: const TextStyle(color: primaryColor, fontSize: 14)),
     );
   }
 }

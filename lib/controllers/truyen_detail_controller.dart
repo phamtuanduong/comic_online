@@ -8,19 +8,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TruyenDetailController extends GetxController {
+class TruyenDetailController extends GetxController
+    with SingleGetTickerProviderMixin {
   late TruyenModel _truyenModel;
+
+  late int maxLine = 5;
 
   TruyenDetailController(TruyenModel truyenModel) {
     _truyenModel = truyenModel;
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
 
     Future<List<TruyenChapter>> _futureOfList =
         GetTruyenChapterService().fetchData(_truyenModel.id);
+
+    await Future.delayed(const Duration(milliseconds: 100));
+
     _futureOfList.then((listResult) => {
           if (listResult.isNotEmpty)
             {
@@ -28,6 +34,15 @@ class TruyenDetailController extends GetxController {
               update(),
             }
         });
+  }
+
+  void viewDesMore(int line) {
+    if (line == maxLine) {
+      maxLine = 5;
+    } else {
+      maxLine = line;
+    }
+    update();
   }
 
   List<Widget> getRateStar() {
@@ -91,17 +106,17 @@ class TruyenDetailController extends GetxController {
 
     return list;
   }
-}
 
-List<Widget> _buildListStar(int count, double size, Color color) {
-  List<Widget> list = [];
-  String star = 'assets/images/ic_star.png';
-  for (int i = 1; i <= count; i++) {
-    list.add(Image.asset(
-      star,
-      height: size,
-      color: color,
-    ));
+  List<Widget> _buildListStar(int count, double size, Color color) {
+    List<Widget> list = [];
+    String star = 'assets/images/ic_star.png';
+    for (int i = 1; i <= count; i++) {
+      list.add(Image.asset(
+        star,
+        height: size,
+        color: color,
+      ));
+    }
+    return list;
   }
-  return list;
 }

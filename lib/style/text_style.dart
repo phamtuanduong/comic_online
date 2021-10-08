@@ -13,3 +13,8 @@ final textDetailStyle =
 
 final textDetailButtonStyle = textStyleSearch.copyWith(
     color: primaryColor, fontSize: 13, fontWeight: FontWeight.normal);
+
+final textDetailDsChapStyle = textDetailButtonStyle.copyWith(
+    color: const Color(0xFF01579B),
+    fontSize: 13,
+    fontWeight: FontWeight.normal);
