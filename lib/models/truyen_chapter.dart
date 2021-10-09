@@ -35,6 +35,10 @@ class TruyenChapter {
     );
   }
 
+  String getNameUpcase() {
+    return name.replaceFirst(name[0], name[0].toUpperCase());
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

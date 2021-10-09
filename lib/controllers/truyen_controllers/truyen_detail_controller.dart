@@ -119,4 +119,10 @@ class TruyenDetailController extends GetxController
     }
     return list;
   }
+
+  Future showListChapter(BuildContext context, Widget child) async {
+    Get.bottomSheet(child, isScrollControlled: true, ignoreSafeArea: true);
+  }
+
+  List<TruyenChapter> getListChap() => _truyenModel.listChapters;
 }

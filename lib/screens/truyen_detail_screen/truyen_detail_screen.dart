@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:comic_online/constants.dart';
-import 'package:comic_online/controllers/truyen_detail_controller.dart';
+import 'package:comic_online/controllers/truyen_controllers/truyen_detail_controller.dart';
 import 'package:comic_online/models/models.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'components/bottomsheet_list_chapter.dart';
 
 class TruyenDetailScreen extends StatelessWidget {
   const TruyenDetailScreen(this.truyenModel, {Key? key}) : super(key: key);
@@ -22,51 +24,7 @@ class TruyenDetailScreen extends StatelessWidget {
                   flex: 6,
                   child: Container(
                       color: const Color(0xFFEEEEEE),
-                      child: /*Column(
-                      children: [
-                        _ContentTopBar(_controller, truyenModel: truyenModel),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: defaultPadding / 2),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const _ContentTitle("Mô tả truyện:"),
-                              Text(
-                                truyenModel.description,
-                                style: textStyleSearch.copyWith(
-                                    color: Colors.black87),
-                              ),
-                              const _ContentTitle("Ds chương mới"),
-                              Column(
-                                children: [
-                                  _ContentListChapBanner(
-                                    truyenModel,
-                                    1,
-                                    onPress: () {},
-                                  ),
-                                  _ContentListChapBanner(
-                                    truyenModel,
-                                    2,
-                                    onPress: () {},
-                                  ),
-                                  _ContentListChapBanner(
-                                    truyenModel,
-                                    3,
-                                    onPress: () {},
-                                  )
-                                ],
-                              ),
-                              const _ContentTitle("Bình luận"),
-                              //Sử dụng danh sách hiển thị bình luận
-                              //Giới hạn số bình luận, và gàn scroll tới cuối tự dộng thêm bình mới
-                            ],
-                          ),
-                        ))
-                      ],
-                    ),*/
-                          CustomScrollView(
+                      child: CustomScrollView(
                         physics: const BouncingScrollPhysics(),
                         slivers: [
                           _ContentSliverAppBar(_controller,
@@ -89,12 +47,52 @@ class TruyenDetailScreen extends StatelessWidget {
               Expanded(
                   flex: 1,
                   child: Container(
-                    color: Colors.white,
-                  ))
+                      color: Colors.white, child: _Footer(_controller)))
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Footer extends StatelessWidget {
+  const _Footer(
+    this.controller, {
+    Key? key,
+  }) : super(key: key);
+  final TruyenDetailController controller;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: Text("Bắt đầu đọc",
+              style: textDetailButtonStyle.copyWith(color: Colors.white)),
+          style: TextButton.styleFrom(
+            backgroundColor: const Color(0xFF1565C0),
+          ),
+        ),
+        TextButton(
+            onPressed: () {},
+            child: Text("Đọc tiếp",
+                style: textDetailButtonStyle.copyWith(color: Colors.white)),
+            style:
+                TextButton.styleFrom(backgroundColor: const Color(0xFFFF1744))),
+        TextButton(
+            onPressed: () async {
+              await controller.showListChapter(
+                  context,
+                  BottomSheetListChapter(
+                      listChapter: controller.getListChap()));
+            },
+            child: Text("Xem tất cả chương",
+                style: textDetailButtonStyle.copyWith(color: Colors.white)),
+            style:
+                TextButton.styleFrom(backgroundColor: const Color(0xFF00796B))),
+      ],
     );
   }
 }
@@ -121,7 +119,7 @@ class _ContentInfomation extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const _ContentTitle("Mô tả truyện:"),
+            const _ContentTitle("Mô tả truyện"),
             Container(
               padding: const EdgeInsets.all(5),
               child: Text(
@@ -147,7 +145,7 @@ class _ContentInfomation extends StatelessWidget {
                           style: textDetailButtonStyle,
                         )))
                 : const SizedBox(),
-            const _ContentTitle("Ds chương mới"),
+            const _ContentTitle("Chương mới nhất"),
             Column(
               children: [
                 _ContentChapBanner(
