@@ -57,6 +57,7 @@ class TruyenDetailController extends GetxController
       list.add(const Text(
         "Chưa có đánh giá",
         style: textStyleSearch,
+        overflow: TextOverflow.ellipsis,
       ));
       return list;
     }

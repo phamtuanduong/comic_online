@@ -4,7 +4,6 @@ import 'package:comic_online/services/truyen_services/get_truyen_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
 
 class TruyenPageController extends GetxController {
   late List<TruyenModel> listTruyen = [];
@@ -54,16 +53,6 @@ class TruyenPageController extends GetxController {
     listTruyen = await _futureOfList;
     if (listTruyen.isNotEmpty) {
       update();
-    }
-  }
-
-  void showBookDetailScreen(BuildContext context, int index) {
-    if (listTruyen.length > index) {
-      Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType.rightToLeftWithFade,
-              child: TruyenDetailScreen(listTruyen[index])));
     }
   }
 }

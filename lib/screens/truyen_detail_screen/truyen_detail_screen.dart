@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:comic_online/components/buttom_back.dart';
+import 'package:comic_online/components/open_screen_animation.dart';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/truyen_controllers/truyen_detail_controller.dart';
 import 'package:comic_online/models/models.dart';
+import 'package:comic_online/screens/read_view_screen/read_view_screen.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -151,9 +154,9 @@ class _ContentInfomation extends StatelessWidget {
                 _ContentChapBanner(
                     truyenModel: truyenModel, index: 1, onPress: () {}),
                 _ContentChapBanner(
-                    truyenModel: truyenModel, index: 1, onPress: () {}),
+                    truyenModel: truyenModel, index: 2, onPress: () {}),
                 _ContentChapBanner(
-                    truyenModel: truyenModel, index: 1, onPress: () {}),
+                    truyenModel: truyenModel, index: 3, onPress: () {}),
               ],
             ),
           ],
@@ -175,19 +178,27 @@ class _ContentChapBanner extends StatelessWidget {
   final Function onPress;
   @override
   Widget build(BuildContext context) {
-    String name = "";
-    if (truyenModel.listChapters.length >= index) {
-      name = truyenModel.listChapters[index].name;
-    }
-
     return truyenModel.listChapters.length >= index
         ? SizedBox(
             width: double.infinity,
-            child: TextButton(
-              onPressed: () {},
-              child: Text(name.replaceFirst(name[0], name[0].toUpperCase()),
-                  style: textDetailDsChapStyle),
-              style: TextButton.styleFrom(alignment: Alignment.centerLeft),
+            child: OpenScreenAnimation(
+              closedBuilder: (BuildContext _, VoidCallback open) => TextButton(
+                onPressed: open,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(truyenModel.listChapters[index].getNameUpcase(),
+                        style: textDetailDsChapStyle),
+                    Text(truyenModel.listChapters[index].getUpDateFormat(),
+                        style: textStyleSearch.copyWith(
+                          fontSize: 11,
+                          fontStyle: FontStyle.italic,
+                        )),
+                  ],
+                ),
+                style: TextButton.styleFrom(alignment: Alignment.centerLeft),
+              ),
+              openBuilder: ReadViewScreen(truyenModel.listChapters[index]),
             ),
           )
         : const SizedBox();
@@ -316,19 +327,10 @@ class _Header extends StatelessWidget {
             Positioned(
                 top: 5,
                 left: 5,
-                child: Material(
-                  shape: const StadiumBorder(),
-                  color: Colors.transparent,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Image.asset(
-                      'assets/images/action-back.png',
-                      width: 32,
-                      height: 32,
-                    ),
-                  ),
+                child: ButtomBack(
+                  onClick: () {
+                    Navigator.pop(context);
+                  },
                 )),
             Positioned(
                 bottom: 10,

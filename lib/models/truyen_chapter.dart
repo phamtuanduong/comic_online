@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:comic_online/models/truyen_image.dart';
+import 'package:intl/intl.dart';
+
 class TruyenChapter {
   int id;
   int bookID;
@@ -7,6 +10,8 @@ class TruyenChapter {
   String tag;
   int viewCount;
   String updateDate;
+
+  List<TruyenImgModel> listImg = [];
 
   TruyenChapter({
     required this.id,
@@ -37,6 +42,12 @@ class TruyenChapter {
 
   String getNameUpcase() {
     return name.replaceFirst(name[0], name[0].toUpperCase());
+  }
+
+  String getUpDateFormat() {
+    var inputDate = DateTime.parse(updateDate);
+    var outputFormat = DateFormat('hh:mm a dd/MM/yyyy');
+    return outputFormat.format(inputDate);
   }
 
   Map<String, dynamic> toMap() {

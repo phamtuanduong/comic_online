@@ -1,5 +1,7 @@
+import 'package:comic_online/components/componets.dart';
 import 'package:comic_online/controllers/truyen_controllers/truyen_show_all_chap_controller.dart';
 import 'package:comic_online/models/truyen_chapter.dart';
+import 'package:comic_online/screens/read_view_screen/read_view_screen.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,17 +70,34 @@ class BottomSheetListChapter extends StatelessWidget {
                 child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: listChapter.length,
-              itemBuilder: (_, i) => Container(
-                height: 45,
-                child: TextButton(
-                  onPressed: () {},
-                  child: Text(_controller.listChapters[i].getNameUpcase(),
-                      style: textDetailDsChapStyle.copyWith(fontSize: 14)),
-                  style: TextButton.styleFrom(alignment: Alignment.centerLeft),
+              itemBuilder: (_, i) => OpenScreenAnimation(
+                closedBuilder: (BuildContext _, VoidCallback open) => Container(
+                  height: 45,
+                  child: TextButton(
+                    onPressed: open,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _controller.listChapters[i].getNameUpcase(),
+                          style: textDetailDsChapStyle.copyWith(fontSize: 14),
+                          overflow: TextOverflow.fade,
+                        ),
+                        Text(_controller.listChapters[i].getUpDateFormat(),
+                            style: textStyleSearch.copyWith(
+                              fontSize: 11,
+                              fontStyle: FontStyle.italic,
+                            ))
+                      ],
+                    ),
+                    style:
+                        TextButton.styleFrom(alignment: Alignment.centerLeft),
+                  ),
+                  decoration: const BoxDecoration(
+                      border:
+                          Border(bottom: BorderSide(color: Color(0xFFE0E0E0)))),
                 ),
-                decoration: const BoxDecoration(
-                    border:
-                        Border(bottom: BorderSide(color: Color(0xFFE0E0E0)))),
+                openBuilder: ReadViewScreen(_controller.listChapters[i]),
               ),
             ))
           ],
