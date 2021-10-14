@@ -1,4 +1,5 @@
 import 'package:comic_online/constants.dart';
+import 'package:comic_online/global.dart';
 import 'package:comic_online/models/models.dart';
 import 'package:comic_online/models/truyen_chapter.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_chapter_service.dart';
@@ -30,6 +31,7 @@ class TruyenDetailController extends GetxController
     _futureOfList.then((listResult) => {
           if (listResult.isNotEmpty)
             {
+              Global.listChapter = listResult,
               _truyenModel.listChapters = listResult.reversed.toList(),
               update(),
             }

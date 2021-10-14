@@ -32,20 +32,13 @@ class ReadViewScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     controller: _c.scrollController,
                     child: Column(
-                      children: truyenChapter.listImg
-                          .map((e) => ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(minHeight: 50),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    _c.showMenuAction();
-                                  },
-                                  child: CachedNetworkImage(
-                                    imageUrl: e.path,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ))
+                      children: _c.buildReadView
+                          .map(
+                            (e) => _ReadContent(
+                              truyenChapter: e,
+                              controller: _c,
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
@@ -59,6 +52,7 @@ class ReadViewScreen extends StatelessWidget {
                   axisAlignment: 1.0,
                   sizeFactor: _c.menuAnimation,
                   child: _HeaderAction(
+                    _c,
                     truyenChapter: truyenChapter,
                   ),
                 ),
@@ -71,14 +65,88 @@ class ReadViewScreen extends StatelessWidget {
   }
 }
 
+class _ReadContent extends StatelessWidget {
+  const _ReadContent({
+    Key? key,
+    required this.truyenChapter,
+    required this.controller,
+  }) : super(key: key);
+
+  final TruyenChapter truyenChapter;
+  final ReadViewController controller;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(controller.title, style: textDetailButtonStyle),
+        const SizedBox(height: defaultPadding / 2),
+        Column(
+          children: truyenChapter.listImg
+              .map((e) => ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 50),
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.showMenuAction();
+                      },
+                      child: CachedNetworkImage(
+                        imageUrl: e.path,
+                        fit: BoxFit.fill,
+                        placeholder: (BuildContext _, String url) =>
+                            Image.asset('assets/images/action-loading.png'),
+                      ),
+                    ),
+                  ))
+              .toList(),
+        ),
+
+        //Bình luận, hiển thị vài bình luận, 3 -> 4 bình luận mới nhất cho chương này
+
+        Text(
+          "Bình luận",
+          style: textDetailDsChapStyle,
+        ),
+        Column(
+          children: const [
+            Text("Bình luận 1"),
+            Text("Bình luận 1"),
+            Text("Bình luận 1"),
+            Text("...")
+          ],
+        ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
+          child: OutlinedButton(
+            onPressed: () {
+              controller.nextChap();
+            },
+            child: Text(
+              "Viết bình luận",
+              style: textDetailDsChapStyle,
+            ),
+            style: OutlinedButton.styleFrom(
+                shape: const StadiumBorder(),
+                side: const BorderSide(color: primaryColor)),
+          ),
+        ),
+        controller.isEndChap
+            ? const Text("Không có chương mới!")
+            : const SizedBox(),
+        const SizedBox(height: defaultPadding / 2)
+      ],
+    );
+  }
+}
+
 class _HeaderAction extends StatelessWidget {
-  const _HeaderAction({
+  const _HeaderAction(
+    this.controller, {
     Key? key,
     required this.truyenChapter,
   }) : super(key: key);
 
   final TruyenChapter truyenChapter;
-
+  final ReadViewController controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -88,13 +156,13 @@ class _HeaderAction extends StatelessWidget {
         children: [
           ButtomBack(
             onClick: () {
-              Navigator.pop(context);
+              controller.back(context);
             },
             iconHeight: 25,
           ),
           Expanded(
             child: Text(
-              truyenChapter.getNameUpcase(),
+              controller.title,
               style: textSubStyle.copyWith(color: Colors.white),
             ),
           ),
