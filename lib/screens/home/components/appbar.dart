@@ -11,6 +11,8 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: AppBar(
+          leading: const Text(""),
+          leadingWidth: 0,
           centerTitle: true,
           title: GestureDetector(
             onTap: () {},
