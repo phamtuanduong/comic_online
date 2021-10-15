@@ -1,6 +1,7 @@
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/screens/home/home_screen.dart';
 import 'package:comic_online/screens/screens.dart';
+import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,7 +39,8 @@ class FirstUseScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TextButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        await SharedPreferenceData.instance.setFirstUse();
                         Get.to(const LoginScreen());
                       },
                       child: const Text("Đăng nhập"),
@@ -64,7 +66,8 @@ class FirstUseScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: defaultPadding * 2),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await SharedPreferenceData.instance.setToken("guest");
                     Get.to(const HomeScreen());
                   },
                   child: const Text(

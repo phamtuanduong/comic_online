@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:comic_online/components/componets.dart';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/login_controllers/login_controller.dart';
@@ -8,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
+  const LoginScreen({Key? key, this.isBack = false}) : super(key: key);
+  final bool isBack;
   @override
   Widget build(BuildContext context) {
     Size _size = Get.mediaQuery.size;
@@ -20,12 +19,21 @@ class LoginScreen extends StatelessWidget {
           init: LoginController(),
           builder: (_controller) => Column(
             children: [
-              Image.asset(
-                'assets/images/header_login_bg.png',
-                height: _size.height * 0.2,
-                width: double.infinity,
-                fit: BoxFit.fitWidth,
-              ),
+              Stack(children: [
+                Image.asset(
+                  'assets/images/header_login_bg.png',
+                  height: _size.height * 0.2,
+                  width: double.infinity,
+                  fit: BoxFit.fitWidth,
+                ),
+                Positioned(
+                    child: ButtomBack(
+                  iconColor: Colors.white,
+                  onClick: () {
+                    Get.back();
+                  },
+                ))
+              ]),
               SizedBox(
                 child: Stack(alignment: Alignment.center, children: [
                   Image.asset(

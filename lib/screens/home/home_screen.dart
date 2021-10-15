@@ -14,10 +14,12 @@ class HomeScreen extends StatelessWidget {
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (_controller) => Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(50.0),
-          child: CustomAppBar(),
-        ),
+        appBar: _controller.tabController.index != 3
+            ? const PreferredSize(
+                preferredSize: Size.fromHeight(50.0),
+                child: CustomAppBar(),
+              )
+            : null,
         body: SafeArea(
           child: Container(
             color: bgContent,
@@ -28,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                 TruyenPage(),
                 EmptyPage(),
                 EmptyPage(),
-                EmptyPage()
+                AccountPage()
               ],
             ),
           ),

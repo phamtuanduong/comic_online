@@ -5,11 +5,13 @@ class ButtomBack extends StatelessWidget {
       {Key? key,
       required this.onClick,
       this.iconWidth = 32,
-      this.iconHeight = 32})
+      this.iconHeight = 32,
+      this.iconColor})
       : super(key: key);
   final Function onClick;
   final double iconWidth;
   final double iconHeight;
+  final Color? iconColor;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -23,6 +25,7 @@ class ButtomBack extends StatelessWidget {
           'assets/images/action-back.png',
           width: iconWidth,
           height: iconHeight,
+          color: iconColor,
         ),
       ),
     );
