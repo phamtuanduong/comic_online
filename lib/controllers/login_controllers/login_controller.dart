@@ -73,7 +73,7 @@ class LoginController extends GetxController {
   Future<bool> login() async {
     bool flag = true;
 
-    if (invalidUser() && invalidPassword()) {
+    if (invalidUser() && invalidPassword() && !isLogin) {
       isLogin = true;
       update();
 

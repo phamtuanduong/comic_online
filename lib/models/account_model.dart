@@ -1,28 +1,45 @@
 import 'dart:convert';
 
+import 'package:comic_online/models/persion_model.dart';
+
 class AccountModel {
-  String name;
+  String username;
+  String password;
+  String email;
+
+  PersionModel? persionModel;
+
   AccountModel({
-    required this.name,
+    required this.username,
+    required this.password,
+    required this.email,
   });
 
   AccountModel copyWith({
-    String? name,
+    String? username,
+    String? password,
+    String? email,
   }) {
     return AccountModel(
-      name: name ?? this.name,
+      username: username ?? this.username,
+      password: password ?? this.password,
+      email: email ?? this.email,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'username': username,
+      'password': password,
+      'email': email,
     };
   }
 
   factory AccountModel.fromMap(Map<String, dynamic> map) {
     return AccountModel(
-      name: map['name'],
+      username: map['username'],
+      password: map['password'],
+      email: map['email'],
     );
   }
 
@@ -32,15 +49,19 @@ class AccountModel {
       AccountModel.fromMap(json.decode(source));
 
   @override
-  String toString() => 'AccountModel(name: $name)';
+  String toString() =>
+      'AccountModel(username: $username, password: $password, email: $email)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is AccountModel && other.name == name;
+    return other is AccountModel &&
+        other.username == username &&
+        other.password == password &&
+        other.email == email;
   }
 
   @override
-  int get hashCode => name.hashCode;
+  int get hashCode => username.hashCode ^ password.hashCode ^ email.hashCode;
 }

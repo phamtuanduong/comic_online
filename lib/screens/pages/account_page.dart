@@ -18,7 +18,7 @@ class AccountPage extends StatelessWidget {
       init: AccountPageController(),
       builder: (_c) => Padding(
         padding: const EdgeInsets.all(8.0),
-        child: _c.checkLogin()
+        child: !_c.checkLogin()
             ? const _GuestView()
             : Column(
                 children: [
@@ -89,7 +89,9 @@ class _Avt extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onClick!();
+        if (onClick != null) {
+          onClick!();
+        }
       },
       child: Container(
         width: 70.0,

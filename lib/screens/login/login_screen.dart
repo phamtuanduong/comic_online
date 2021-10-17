@@ -2,6 +2,7 @@ import 'package:comic_online/components/componets.dart';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/login_controllers/login_controller.dart';
 import 'package:comic_online/screens/home/home_screen.dart';
+import 'package:comic_online/screens/login/register_screen.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -153,7 +154,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: defaultPadding / 4),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(const RegisterScreen(),
+                          transition: Transition.rightToLeftWithFade);
+                    },
                     child: Text("Đăng ký ngay", style: textDetailButtonStyle),
                   ),
                   Text(
