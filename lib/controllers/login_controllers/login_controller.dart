@@ -40,6 +40,7 @@ class LoginController extends GetxController {
   }
 
   Future<bool> checkLogin() async {
+    Get.to(const HomeScreen());
     return true;
   }
 

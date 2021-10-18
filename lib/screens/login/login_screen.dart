@@ -27,13 +27,15 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   fit: BoxFit.fitWidth,
                 ),
-                Positioned(
-                    child: ButtomBack(
-                  iconColor: Colors.white,
-                  onClick: () {
-                    Get.back();
-                  },
-                ))
+                isBack
+                    ? Positioned(
+                        child: ButtomBack(
+                        iconColor: Colors.white,
+                        onClick: () {
+                          Get.back();
+                        },
+                      ))
+                    : const SizedBox()
               ]),
               SizedBox(
                 child: Stack(alignment: Alignment.center, children: [

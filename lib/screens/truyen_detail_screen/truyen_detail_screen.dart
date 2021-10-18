@@ -263,18 +263,24 @@ class _ContentSliverAppBar extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               vertical: defaultPadding / 2, horizontal: defaultPadding / 4),
           child: OutlinedButton(
-            onPressed: () {},
+            onPressed: () async {
+              await controller.followBook();
+            },
             child: Row(
               children: [
-                const Icon(Icons.bookmark_add_rounded),
+                !controller.isFollow
+                    ? const Icon(Icons.bookmark_add_rounded)
+                    : const Icon(Icons.bookmark_rounded),
                 const SizedBox(width: defaultPadding / 8),
                 Text(
-                  "Theo dõi",
+                  !controller.isFollow ? "Theo dõi" : "Đã theo dõi",
                   style: textDetailButtonStyle,
                 )
               ],
             ),
             style: OutlinedButton.styleFrom(
+                backgroundColor:
+                    controller.isFollow ? primaryColor.withOpacity(0.15) : null,
                 padding: const EdgeInsets.symmetric(horizontal: 10)),
           ),
         )

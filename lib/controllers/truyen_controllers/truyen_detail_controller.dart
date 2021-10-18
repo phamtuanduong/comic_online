@@ -2,6 +2,8 @@ import 'package:comic_online/constants.dart';
 import 'package:comic_online/global.dart';
 import 'package:comic_online/models/models.dart';
 import 'package:comic_online/models/truyen_chapter.dart';
+import 'package:comic_online/services/truyen_services/follow_service.dart';
+import 'package:comic_online/services/truyen_services/get_follow_book.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_chapter_service.dart';
 import 'package:comic_online/style/colors.dart';
 import 'package:comic_online/style/style.dart';
@@ -13,16 +15,19 @@ class TruyenDetailController extends GetxController
     with SingleGetTickerProviderMixin {
   late TruyenModel _truyenModel;
 
+  bool isFollow = false;
+  bool isLike = false;
+
   late int maxLine = 5;
 
   TruyenDetailController(TruyenModel truyenModel) {
     _truyenModel = truyenModel;
+    isFollow = _truyenModel.isFollow;
   }
 
   @override
   void onInit() async {
     super.onInit();
-
     Future<List<TruyenChapter>> _futureOfList =
         GetTruyenChapterService().fetchData(_truyenModel.id);
 
@@ -125,6 +130,19 @@ class TruyenDetailController extends GetxController
 
   Future showListChapter(BuildContext context, Widget child) async {
     Get.bottomSheet(child, isScrollControlled: true, ignoreSafeArea: true);
+  }
+
+  Future<bool> followBook() async {
+    if (!isFollow) {
+      isFollow = await FollowService().postData(_truyenModel);
+    } else {
+      _truyenModel.listFollowBook.clear();
+      isFollow =
+          !await FollowService().postData(_truyenModel, action: "delete");
+    }
+    _truyenModel.isFollow = isFollow;
+    update();
+    return isFollow;
   }
 
   List<TruyenChapter> getListChap() => _truyenModel.listChapters;

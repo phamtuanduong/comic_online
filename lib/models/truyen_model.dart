@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:comic_online/models/truyen_chapter.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:comic_online/models/models.dart';
 
 class TruyenModel {
   int id;
@@ -19,9 +20,11 @@ class TruyenModel {
   int totalView;
   String lastUpdate;
   List<String> categories;
+  bool isFollow;
+
+  List<FollowBookModel> listFollowBook = [];
 
   List<TruyenChapter> listChapters = [];
-
   TruyenModel({
     required this.id,
     required this.authorID,
@@ -38,6 +41,7 @@ class TruyenModel {
     required this.totalView,
     required this.lastUpdate,
     required this.categories,
+    required this.isFollow,
   });
 
   String getCatagory() {
@@ -66,6 +70,9 @@ class TruyenModel {
     int? totalView,
     String? lastUpdate,
     List<String>? categories,
+    bool? isFollow,
+    List<FollowBookModel>? listFollowBook,
+    List<TruyenChapter>? listChapters,
   }) {
     return TruyenModel(
       id: id ?? this.id,
@@ -83,6 +90,7 @@ class TruyenModel {
       totalView: totalView ?? this.totalView,
       lastUpdate: lastUpdate ?? this.lastUpdate,
       categories: categories ?? this.categories,
+      isFollow: isFollow ?? this.isFollow,
     );
   }
 
@@ -103,6 +111,7 @@ class TruyenModel {
       'totalView': totalView,
       'lastUpdate': lastUpdate,
       'categories': categories,
+      'isFollow': isFollow,
     };
   }
 
@@ -123,6 +132,7 @@ class TruyenModel {
       totalView: map['totalView'],
       lastUpdate: map['lastUpdate'],
       categories: List<String>.from(map['categories']),
+      isFollow: map['isFollow'],
     );
   }
 
@@ -133,7 +143,7 @@ class TruyenModel {
 
   @override
   String toString() {
-    return 'TruyenModel(id: $id, authorID: $authorID, name: $name, tag: $tag, description: $description, avtBook: $avtBook, rate: $rate, rateCount: $rateCount, follow: $follow, likeCount: $likeCount, status: $status, lastNumChap: $lastNumChap, totalView: $totalView, lastUpdate: $lastUpdate, categories: $categories)';
+    return 'TruyenModel(id: $id, authorID: $authorID, name: $name, tag: $tag, description: $description, avtBook: $avtBook, rate: $rate, rateCount: $rateCount, follow: $follow, likeCount: $likeCount, status: $status, lastNumChap: $lastNumChap, totalView: $totalView, lastUpdate: $lastUpdate, categories: $categories, isFollow: $isFollow, listFollowBook: $listFollowBook, listChapters: $listChapters)';
   }
 
   @override
@@ -155,7 +165,10 @@ class TruyenModel {
         other.lastNumChap == lastNumChap &&
         other.totalView == totalView &&
         other.lastUpdate == lastUpdate &&
-        listEquals(other.categories, categories);
+        listEquals(other.categories, categories) &&
+        other.isFollow == isFollow &&
+        listEquals(other.listFollowBook, listFollowBook) &&
+        listEquals(other.listChapters, listChapters);
   }
 
   @override
@@ -174,6 +187,9 @@ class TruyenModel {
         lastNumChap.hashCode ^
         totalView.hashCode ^
         lastUpdate.hashCode ^
-        categories.hashCode;
+        categories.hashCode ^
+        isFollow.hashCode ^
+        listFollowBook.hashCode ^
+        listChapters.hashCode;
   }
 }
