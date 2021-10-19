@@ -20,7 +20,7 @@ class RegisterController extends GetxController {
   String? invalidTextRePassword;
   String? invalidTextEmail;
 
-  RegisterService _registerService = RegisterService();
+  final RegisterService _registerService = RegisterService();
 
   void changeShowHidePass() {
     isShowPassword = !isShowPassword;

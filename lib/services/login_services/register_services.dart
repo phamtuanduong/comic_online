@@ -46,8 +46,8 @@ class RegisterService {
     http.Response response = await http.post(uri,
         headers: Global.headers,
         body: json.encode({
-          "username": account.username,
-          "password": account.password,
+          "user": account.username,
+          "pass": account.password,
         }));
 
     if (response.statusCode == 200 && response.body != "KHONG_THANH_CONG") {

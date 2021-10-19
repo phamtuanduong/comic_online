@@ -6,7 +6,6 @@ import 'package:comic_online/services/truyen_services/get_truyen_image.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class ReadViewController extends GetxController
     with SingleGetTickerProviderMixin {

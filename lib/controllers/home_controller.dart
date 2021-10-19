@@ -1,4 +1,3 @@
-import 'package:comic_online/global.dart';
 import 'package:comic_online/screens/pages/page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,8 +20,12 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
   void onInit() {
     super.onInit();
     tabController = TabController(length: buildPages().length, vsync: this);
+  }
 
-    print("token: ${Global.token}");
+  @override
+  void onReady() {
+    super.onReady();
+    tabController.index = selectIndex = 0;
   }
 
   void changeIndex(int index) {
@@ -30,11 +33,5 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
       tabController.index = index;
       update();
     }
-  }
-
-  @override
-  void onClose() {
-    tabController.dispose();
-    super.onClose();
   }
 }

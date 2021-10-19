@@ -12,4 +12,8 @@ class Global {
   static String token = "guest";
 
   static List<TruyenChapter>? listChapter;
+
+  static bool isLogin() {
+    return token != "";
+  }
 }

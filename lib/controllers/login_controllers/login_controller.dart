@@ -1,6 +1,5 @@
 import 'package:comic_online/global.dart';
 import 'package:comic_online/screens/home/home_screen.dart';
-import 'package:comic_online/screens/login/first_use_screen.dart';
 import 'package:comic_online/services/login_services/get_login_service.dart';
 import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:get/get.dart';
@@ -15,39 +14,15 @@ class LoginController extends GetxController {
   String? invalidTextUser;
   String? invalidTextPassword;
 
-  @override
-  void onInit() async {
-    super.onInit();
-
-    await SharedPreferenceData.instance.load();
-    bool flag = SharedPreferenceData.instance.firstUse();
-
-    if (!flag) {
-      Get.to(const FirstUseScreen());
-    } else {
-      Global.token = SharedPreferenceData.instance.getToken();
-      if (Global.token == "guest") {
-        Get.to(const HomeScreen());
-      } else if (Global.token != "none") {
-        await checkLogin();
-      }
-    }
-  }
-
   void changeShowHidePass() {
     isShowPassword = !isShowPassword;
     update();
   }
 
-  Future<bool> checkLogin() async {
-    Get.to(const HomeScreen());
-    return true;
-  }
-
   void useGuest() {
     Global.token = "guest";
     SharedPreferenceData.instance.setToken("guest");
-    Get.to(const HomeScreen());
+    Get.offAll(const HomeScreen());
   }
 
   bool invalidUser() {

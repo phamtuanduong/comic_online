@@ -1,8 +1,6 @@
-import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:comic_online/components/open_screen_animation.dart';
 import 'package:comic_online/constants.dart';
-import 'package:comic_online/controllers/home_controller.dart';
 import 'package:comic_online/controllers/truyen_controllers/truyen_page_controller.dart';
 import 'package:comic_online/screens/screens.dart';
 import 'package:comic_online/style/style.dart';

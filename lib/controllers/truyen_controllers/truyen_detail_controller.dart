@@ -3,7 +3,6 @@ import 'package:comic_online/global.dart';
 import 'package:comic_online/models/models.dart';
 import 'package:comic_online/models/truyen_chapter.dart';
 import 'package:comic_online/services/truyen_services/follow_service.dart';
-import 'package:comic_online/services/truyen_services/get_follow_book.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_chapter_service.dart';
 import 'package:comic_online/style/colors.dart';
 import 'package:comic_online/style/style.dart';
@@ -134,7 +133,11 @@ class TruyenDetailController extends GetxController
 
   Future<bool> followBook() async {
     if (!isFollow) {
-      isFollow = await FollowService().postData(_truyenModel);
+      if (Global.isLogin()) {
+        isFollow = await FollowService().postData(_truyenModel);
+      } else {
+        Get.snackbar("Thao tác thất bại", "Bạn chưa đăng nhập");
+      }
     } else {
       _truyenModel.listFollowBook.clear();
       isFollow =

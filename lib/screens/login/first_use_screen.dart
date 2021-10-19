@@ -41,7 +41,7 @@ class FirstUseScreen extends StatelessWidget {
                     TextButton(
                       onPressed: () async {
                         await SharedPreferenceData.instance.setFirstUse();
-                        Get.to(const LoginScreen());
+                        Get.offAll(const LoginScreen());
                       },
                       child: const Text("Đăng nhập"),
                       style: TextButton.styleFrom(
@@ -51,7 +51,9 @@ class FirstUseScreen extends StatelessWidget {
                           shape: const StadiumBorder()),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.offAll(const RegisterScreen());
+                      },
                       child: const Text(
                         "Đăng ký",
                         style: TextStyle(color: Colors.teal),
@@ -68,7 +70,7 @@ class FirstUseScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () async {
                     await SharedPreferenceData.instance.setToken("guest");
-                    Get.to(const HomeScreen());
+                    Get.offAll(const HomeScreen());
                   },
                   child: const Text(
                     "Khách",

@@ -9,9 +9,12 @@ class SharedPreferenceData {
   static SharedPreferenceData get instance => _instance;
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late final SharedPreferences? prefs;
+  late SharedPreferences? prefs = null;
 
   Future<bool> load() async {
+    if (prefs != null) {
+      return true;
+    }
     prefs = await _prefs;
     return prefs == null;
   }

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: GalleryThemeData.lightThemeData.copyWith(),
       darkTheme: GalleryThemeData.darkThemeData.copyWith(),
-      home: const LoginScreen(),
+      home: const SplashScreen(),
       scrollBehavior: MyCustomScrollBehavior(),
     );
   }
