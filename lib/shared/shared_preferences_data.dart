@@ -21,6 +21,7 @@ class SharedPreferenceData {
 
   bool firstUse() {
     bool flag = false;
+
     flag = prefs!.getBool('FUse') ?? false;
 
     return flag;

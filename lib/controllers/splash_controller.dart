@@ -4,13 +4,6 @@ import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
-  @override
-  void onInit() async {
-    super.onInit();
-
-    await SharedPreferenceData.instance.load();
-  }
-
   Future<bool> checkLogin() async {
     Get.to(const HomeScreen());
     return true;
@@ -19,6 +12,9 @@ class SplashController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
+
+    await SharedPreferenceData.instance.load();
+
     bool flag = SharedPreferenceData.instance.firstUse();
 
     if (!flag) {
