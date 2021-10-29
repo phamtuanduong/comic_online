@@ -8,7 +8,7 @@ class GetTruyenChapterService {
   Future<List<TruyenChapter>> fetchData(int bookID) async {
     List<TruyenChapter> list = [];
     Uri uri = Uri.parse("${Global.baseApiUri}/get_list_chapter.php");
-
+    print(Global.token);
     http.Response response = await http.post(uri,
         headers: Global.headers,
         body: json.encode({

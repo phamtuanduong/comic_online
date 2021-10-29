@@ -23,7 +23,7 @@ class SplashController extends GetxController {
       Global.token = SharedPreferenceData.instance.getToken();
       await Future.delayed(const Duration(milliseconds: 2000));
 
-      if (Global.isLogin()) {
+      if (await Global.isLogin()) {
         Get.offAll(const HomeScreen());
       } else {
         Get.offAll(const LoginScreen());

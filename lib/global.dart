@@ -1,4 +1,6 @@
 import 'package:comic_online/models/truyen_chapter.dart';
+import 'package:comic_online/services/login_services/get_login_service.dart';
+import 'package:comic_online/shared/shared_preferences_data.dart';
 
 class Global {
   static String baseApiUri = "http://192.168.1.3/ComicOnlineService/";
@@ -13,7 +15,12 @@ class Global {
 
   static List<TruyenChapter>? listChapter;
 
-  static bool isLogin() {
+  static Future<bool> isLogin() async {
+    if (token == "guest") {
+      if (await GetLoginService().fetchData("guest", "")) {
+        SharedPreferenceData.instance.setToken(token);
+      }
+    }
     return token != "";
   }
 }

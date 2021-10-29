@@ -133,7 +133,7 @@ class TruyenDetailController extends GetxController
 
   Future<bool> followBook() async {
     if (!isFollow) {
-      if (Global.isLogin()) {
+      if (await Global.isLogin()) {
         isFollow = await FollowService().postData(_truyenModel);
       } else {
         Get.snackbar("Thao tác thất bại", "Bạn chưa đăng nhập");
