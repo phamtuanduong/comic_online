@@ -253,7 +253,7 @@ class _ContentSliverAppBar extends StatelessWidget {
                 //điều kiên (?? == 1) hoặc (?? == true)
                 //Chỗ này BÁCH sẽ xử lý, if là yêu thich color = null ngược lại color = menuUnselect ,
                 //hay tùy chọn color nào cũng đc (FolleBook Loading)
-                color: (0 == 1) ? null : menuUnselectedColor,
+                color: (0 == 1) ? null : menuUnselectedColor1,
               ),
             ),
           ),
