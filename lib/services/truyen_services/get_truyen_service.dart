@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 class GetTruyenServices {
   Future<List<TruyenModel>> fetchData({int count = 20}) async {
     Uri uri = Uri.parse("${Global.baseApiUri}/get_books.php");
+    print(Global.token);
     http.Response response = await http.post(
       uri,
       headers: Global.headers,

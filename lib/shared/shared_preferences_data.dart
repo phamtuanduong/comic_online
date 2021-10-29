@@ -29,7 +29,7 @@ class SharedPreferenceData {
 
   String getToken() {
     String token;
-    token = prefs!.getString('token') ?? "none";
+    token = prefs!.getString('token') ?? "guest";
     return token;
   }
 
