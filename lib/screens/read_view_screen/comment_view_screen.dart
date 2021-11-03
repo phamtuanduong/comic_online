@@ -244,25 +244,15 @@ class _FooterAction extends StatelessWidget {
                     onPressed: () {
                       // ignore: avoid_print
                       print(textCommentController.text);
+                      // controller.getText(textCommentController);
+                      // textCommentController.clear();
                     },
                     icon: const Icon(Icons.check))),
             controller: textCommentController,
+            keyboardType: TextInputType.text,
           ),
         ),
       ],
     );
-    /*Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'enter'),
-            ),
-          ],
-        ),
-      ),
-    );*/
   }
 }

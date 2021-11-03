@@ -37,5 +37,9 @@ class CommentController extends GetxController
     Navigator.pop(context);
   }
 
+  void getText(TextEditingController text) {
+    print(text.text);
+  }
+
   List<CommentModel> getListCommentParent() => _truyenModel.listCommentsChild;
 }
