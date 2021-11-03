@@ -4,6 +4,7 @@ import 'package:comic_online/components/open_screen_animation.dart';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/truyen_controllers/truyen_detail_controller.dart';
 import 'package:comic_online/models/models.dart';
+import 'package:comic_online/screens/read_view_screen/comment_view_screen.dart';
 import 'package:comic_online/screens/read_view_screen/read_view_screen.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
@@ -38,13 +39,19 @@ class TruyenDetailScreen extends StatelessWidget {
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: defaultPadding / 2),
-                              child: _ContentTitle("Bình luận"),
+                              child: _ContentTitle("Bình luận mới nhất"),
                             ),
                           ),
                           SliverList(
                               delegate: SliverChildBuilderDelegate(
-                                  (_, i) => Text("bình luận $i"),
-                                  childCount: 20))
+                                  (_, index) => _CommentLoadDetails(
+                                        controller: _controller,
+                                        truyenModel: truyenModel,
+                                        index: index,
+                                        onPress: () {},
+                                      ),
+                                  childCount:
+                                      truyenModel.listCommentsParent.length))
                         ],
                       ))),
               Expanded(
@@ -56,6 +63,83 @@ class TruyenDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _CommentLoadDetails extends StatelessWidget {
+  const _CommentLoadDetails({
+    Key? key,
+    required this.controller,
+    required this.truyenModel,
+    required this.index,
+    required this.onPress,
+  }) : super(key: key);
+
+  final TruyenDetailController controller;
+  final TruyenModel truyenModel;
+  final int index;
+  final Function onPress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        color: const Color(0xFFFFFFFF),
+        margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+        child: Container(
+            padding: const EdgeInsets.all(5),
+            child: Row(children: [
+              Container(
+                margin: const EdgeInsets.all(defaultPadding / 4),
+                width: 50.0,
+                height: 50.0,
+                child: Image.asset('assets/images/guest_icon.png'),
+                decoration: BoxDecoration(
+                  color: Colors.white60,
+                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  border: Border.all(
+                    color: menuUnselectedColor,
+                    width: 1.0,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        truyenModel.listCommentsParent[index].userName +
+                            ":" +
+                            truyenModel.listCommentsParent[index].chapName,
+                        style: textDetailDsChapStyle),
+                    Text(
+                      truyenModel.listCommentsParent[index].content,
+                      style: textStyleSearch.copyWith(color: Colors.black87),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    child: OpenScreenAnimation(
+                      closedBuilder: (BuildContext _, VoidCallback open) =>
+                          TextButton(
+                        onPressed: open,
+                        child: const Icon(Icons.comment),
+                      ),
+                      openBuilder: CommentDetailParentViewScreen(
+                        truyenModel,
+                        truyenModel.listCommentsParent[index].id,
+                        index,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ])));
   }
 }
 
@@ -89,13 +173,19 @@ class _Footer extends StatelessWidget {
                     backgroundColor: const Color(0xFFFF1744)))
             : const SizedBox(),
         TextButton(
+            onPressed: () {},
+            child: Text("Bình luận",
+                style: textDetailButtonStyle.copyWith(color: Colors.white)),
+            style:
+                TextButton.styleFrom(backgroundColor: const Color(0xFF1A94FF))),
+        TextButton(
             onPressed: () async {
               await controller.showListChapter(
                   context,
                   BottomSheetListChapter(
                       listChapter: controller.getListChap()));
             },
-            child: Text("Xem tất cả chương",
+            child: Text("D.S Chương",
                 style: textDetailButtonStyle.copyWith(color: Colors.white)),
             style:
                 TextButton.styleFrom(backgroundColor: const Color(0xFF00796B))),

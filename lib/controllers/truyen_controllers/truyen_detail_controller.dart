@@ -4,6 +4,7 @@ import 'package:comic_online/models/models.dart';
 import 'package:comic_online/models/truyen_chapter.dart';
 import 'package:comic_online/screens/read_view_screen/read_view_screen.dart';
 import 'package:comic_online/services/truyen_services/follow_service.dart';
+import 'package:comic_online/services/truyen_services/get_all_comment_service.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_chapter_service.dart';
 import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:comic_online/style/colors.dart';
@@ -51,6 +52,33 @@ class TruyenDetailController extends GetxController
             {
               Global.listChapter = listResult,
               _truyenModel.listChapters = listResult.reversed.toList(),
+              update(),
+            }
+        });
+
+    Future<List<CommentModel>> _futureOfListAllComments =
+        GetAllCommentServices().fetchData(_truyenModel.id);
+
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    _futureOfListAllComments.then((listResultComment) => {
+          if (listResultComment.isNotEmpty)
+            {
+              _truyenModel.listAllComments = listResultComment.toList(),
+              update(),
+            }
+        });
+
+    Future<List<CommentModel>> _futureOfListCommentsParent =
+        GetCommentParentServices().fetchData(_truyenModel.id);
+
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    _futureOfListCommentsParent.then((listResultCommentParent) => {
+          if (listResultCommentParent.isNotEmpty)
+            {
+              _truyenModel.listCommentsParent =
+                  listResultCommentParent.toList(),
               update(),
             }
         });
@@ -180,4 +208,6 @@ class TruyenDetailController extends GetxController
     Get.to(ReadViewScreen(
         _truyenModel.listChapters[_truyenModel.listChapters.length - 2]));
   }
+
+  List<CommentModel> getListComment() => _truyenModel.listAllComments;
 }

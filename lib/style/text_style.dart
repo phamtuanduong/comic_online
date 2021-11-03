@@ -18,3 +18,8 @@ final textDetailDsChapStyle = textDetailButtonStyle.copyWith(
     color: const Color(0xFF01579B),
     fontSize: 13,
     fontWeight: FontWeight.normal);
+
+final textDetailCommentTitleStyle = textDetailButtonStyle.copyWith(
+    color: const Color(0xFF01579B),
+    fontSize: 15,
+    fontWeight: FontWeight.normal);
