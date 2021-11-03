@@ -19,7 +19,7 @@ class GetPersionService {
         response.body != "DATA_ERROR" &&
         response.body != "TK_KHONG_HOP_LE" &&
         response.body != "TOKEN_KHONG_HOP_LE";
-    print(response.body);
+
     if (check) {
       List<dynamic> data = json.decode(response.body);
       persionModel = PersionModel.fromMap(data.first);

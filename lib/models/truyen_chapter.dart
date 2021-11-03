@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:comic_online/models/truyen_image.dart';
 import 'package:intl/intl.dart';
 
+import 'comment_model.dart';
+
 class TruyenChapter {
   int id;
   int bookID;
@@ -12,6 +14,10 @@ class TruyenChapter {
   String updateDate;
 
   List<TruyenImgModel> listImg = [];
+
+  List<CommentModel> listAllComments = [];
+  List<CommentModel> listCommentsParent = [];
+  List<CommentModel> listCommentsChild = [];
 
   TruyenChapter({
     required this.id,

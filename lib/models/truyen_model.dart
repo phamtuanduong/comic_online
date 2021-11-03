@@ -25,6 +25,11 @@ class TruyenModel {
   List<FollowBookModel> listFollowBook = [];
 
   List<TruyenChapter> listChapters = [];
+
+  List<CommentModel> listAllComments = [];
+  List<CommentModel> listCommentsParent = [];
+  List<CommentModel> listCommentsChild = [];
+
   TruyenModel({
     required this.id,
     required this.authorID,

@@ -1,7 +1,6 @@
 import 'package:comic_online/global.dart';
 import 'package:comic_online/models/models.dart';
 import 'package:comic_online/screens/home/home_screen.dart';
-import 'package:comic_online/screens/login/login_screen.dart';
 import 'package:comic_online/screens/screens.dart';
 import 'package:comic_online/services/get_persion_service.dart';
 import 'package:comic_online/shared/shared_preferences_data.dart';
