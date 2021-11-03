@@ -71,19 +71,23 @@ class _Footer extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            controller.readChapFirst();
+          },
           child: Text("Bắt đầu đọc",
               style: textDetailButtonStyle.copyWith(color: Colors.white)),
           style: TextButton.styleFrom(
             backgroundColor: const Color(0xFF1565C0),
           ),
         ),
-        TextButton(
-            onPressed: () {},
-            child: Text("Đọc tiếp",
-                style: textDetailButtonStyle.copyWith(color: Colors.white)),
-            style:
-                TextButton.styleFrom(backgroundColor: const Color(0xFFFF1744))),
+        controller.isReaded
+            ? TextButton(
+                onPressed: () {},
+                child: Text("Đọc tiếp C.${controller.getNameLastChap()}",
+                    style: textDetailButtonStyle.copyWith(color: Colors.white)),
+                style: TextButton.styleFrom(
+                    backgroundColor: const Color(0xFFFF1744)))
+            : const SizedBox(),
         TextButton(
             onPressed: () async {
               await controller.showListChapter(
@@ -149,16 +153,18 @@ class _ContentInfomation extends StatelessWidget {
                         )))
                 : const SizedBox(),
             const _ContentTitle("Chương mới nhất"),
-            Column(
-              children: [
-                _ContentChapBanner(
-                    truyenModel: truyenModel, index: 1, onPress: () {}),
-                _ContentChapBanner(
-                    truyenModel: truyenModel, index: 2, onPress: () {}),
-                _ContentChapBanner(
-                    truyenModel: truyenModel, index: 3, onPress: () {}),
-              ],
-            ),
+            truyenModel.listChapters.isNotEmpty
+                ? Column(
+                    children: [
+                      _ContentChapBanner(
+                          truyenModel: truyenModel, index: 0, onPress: () {}),
+                      _ContentChapBanner(
+                          truyenModel: truyenModel, index: 1, onPress: () {}),
+                      _ContentChapBanner(
+                          truyenModel: truyenModel, index: 2, onPress: () {}),
+                    ],
+                  )
+                : const SizedBox(),
           ],
         ),
       ),

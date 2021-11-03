@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:comic_online/models/models.dart';
 import 'package:comic_online/models/truyen_image.dart';
 import 'package:intl/intl.dart';
 
@@ -10,6 +11,8 @@ class TruyenChapter {
   String tag;
   int viewCount;
   String updateDate;
+
+  TruyenModel? truyenModel;
 
   List<TruyenImgModel> listImg = [];
 

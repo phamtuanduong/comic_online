@@ -60,4 +60,23 @@ class RegisterService {
     }
     return true;
   }
+
+  Future<bool> updateInfo(PersionModel persionModel) async {
+    Uri uri = Uri.parse("${Global.baseApiUri}/users/persion.php");
+
+    http.Response response = await http.post(uri,
+        headers: Global.headers,
+        body: json.encode({
+          "action": "UPDATE",
+          "FullName": persionModel.fullname,
+          "Email": persionModel.email,
+          "Gender": persionModel.gender,
+          "BirthDate": persionModel.birthdate
+        }));
+
+    if (response.statusCode != 200 && response.body == "KHONG_THANH_CONG") {
+      return false;
+    }
+    return true;
+  }
 }

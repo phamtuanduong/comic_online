@@ -1,4 +1,5 @@
 import 'package:comic_online/controllers/home_controller.dart';
+import 'package:comic_online/screens/pages/history_page.dart';
 import 'package:comic_online/screens/pages/page.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class HomeScreen extends StatelessWidget {
               controller: _controller.tabController,
               children: const [
                 TruyenPage(),
-                EmptyPage(),
+                HistoryPage(),
                 EmptyPage(),
                 AccountPage()
               ],

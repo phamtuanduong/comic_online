@@ -112,9 +112,6 @@ class LoginScreen extends StatelessWidget {
                                     icon: const Icon(Icons.error),
                                     backgroundColor: Colors.white54);
                               }
-                              if (flag) {
-                                Get.to(const HomeScreen());
-                              }
                             },
                             child: Row(
                               mainAxisAlignment: _controller.isLogin

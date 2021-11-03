@@ -89,6 +89,12 @@ class _ReadContent extends StatelessWidget {
                         controller.showMenuAction();
                       },
                       child: CachedNetworkImage(
+                        httpHeaders: const <String, String>{
+                          'CF-RAY': '6a619e4f0e942ee6-SIN',
+                          'Content-Type': 'text/html; charset=UTF-8',
+                          'user-agent':
+                              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
+                        },
                         imageUrl: e.path,
                         fit: BoxFit.fill,
                         placeholder: (BuildContext _, String url) =>
@@ -129,6 +135,9 @@ class _ReadContent extends StatelessWidget {
                 side: const BorderSide(color: primaryColor)),
           ),
         ),
+        controller.isLoad
+            ? const CircularProgressIndicator()
+            : const SizedBox(),
         controller.isEndChap
             ? const Text("Không có chương mới!")
             : const SizedBox(),

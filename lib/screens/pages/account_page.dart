@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/account_page_controller.dart';
+import 'package:comic_online/screens/account_info/account_chang_pass_screen.dart';
 import 'package:comic_online/screens/login/login_screen.dart';
 import 'package:comic_online/style/colors.dart';
 import 'package:comic_online/style/style.dart';
@@ -13,66 +14,85 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AccountPageController>(
-      init: AccountPageController(),
-      builder: (_c) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: !_c.checkLogin()
-            ? const _GuestView()
-            : Column(
-                children: [
-                  Container(
-                    height: 100,
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const _Avt(),
-                        const SizedBox(width: defaultPadding / 2),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: SafeArea(
+        child: GetBuilder<AccountPageController>(
+          init: AccountPageController(),
+          builder: (_c) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: !_c.checkLogin()
+                ? const _GuestView()
+                : Column(
+                    children: [
+                      Container(
+                        height: 100,
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              "Xin chào",
-                              style:
-                                  textDetailButtonStyle.copyWith(fontSize: 14),
+                            const _Avt(),
+                            const SizedBox(width: defaultPadding / 2),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Xin chào",
+                                  style: textDetailButtonStyle.copyWith(
+                                      fontSize: 18),
+                                ),
+                                const SizedBox(height: defaultPadding / 4),
+                                Text(_c.persionModel.fullname.toUpperCase()),
+                              ],
                             ),
-                            const SizedBox(height: defaultPadding / 4),
-                            Text(_c.persionModel.fullname.toUpperCase()),
                           ],
                         ),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [
-                            bgContent,
-                            primaryColor.withOpacity(0.24),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [
+                                bgContent.withOpacity(0.24),
+                                primaryColor.withOpacity(0.1),
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter),
+                        ),
+                      ),
+                      Expanded(
+                          child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _ButtomAction(
+                              onClick: () {},
+                              text: "Thông tin tài khoản",
+                              color: primaryColor.withOpacity(0.25),
+                            ),
+                            const SizedBox(height: 10),
+                            _ButtomAction(
+                              onClick: () {
+                                Get.to(const AccChangPassScreen());
+                              },
+                              text: "Đổi mật khẩu",
+                              textColor: textDetailButtonStyle.copyWith(
+                                  color: Colors.pinkAccent),
+                              color: Colors.pinkAccent.withOpacity(0.25),
+                            ),
                           ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter),
-                    ),
+                        ),
+                      )),
+                      _ButtomAction(
+                        onClick: () {
+                          _c.dangXuat();
+                        },
+                        text: "Đăng xuất",
+                        color: primaryColor.withOpacity(0.25),
+                      ),
+                      const SizedBox(height: defaultPadding / 4)
+                    ],
                   ),
-                  Expanded(
-                      child: Center(
-                    child: _ButtomAction(
-                      onClick: () {},
-                      text: "Thông tin tài khoản",
-                      color: primaryColor.withOpacity(0.25),
-                    ),
-                  )),
-                  _ButtomAction(
-                    onClick: () {
-                      _c.dangXuat();
-                    },
-                    text: "Đăng xuất",
-                    color: primaryColor.withOpacity(0.25),
-                  ),
-                  const SizedBox(height: defaultPadding / 4)
-                ],
-              ),
+          ),
+        ),
       ),
     );
   }
@@ -84,10 +104,12 @@ class _ButtomAction extends StatelessWidget {
     required this.text,
     required this.color,
     required this.onClick,
+    this.textColor,
   }) : super(key: key);
   final String text;
   final Color color;
   final Function onClick;
+  final TextStyle? textColor;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -97,7 +119,7 @@ class _ButtomAction extends StatelessWidget {
         onPressed: () {
           onClick();
         },
-        child: Text(text, style: textDetailButtonStyle),
+        child: Text(text, style: textColor ?? textDetailButtonStyle),
         style: TextButton.styleFrom(
             backgroundColor: color, shape: const StadiumBorder()),
       ),

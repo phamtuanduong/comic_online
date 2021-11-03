@@ -40,4 +40,25 @@ class SharedPreferenceData {
   Future setToken(String token) async {
     await prefs!.setString('token', token);
   }
+
+  bool checkHistoryBook(int bookID) => prefs!.containsKey('$bookID');
+
+  List<String> getListHistoryBook(String key) {
+    List<String> list;
+    list = prefs!.getStringList(key) ?? [];
+    return list;
+  }
+
+  String? getHistoryBook(int bookID) {
+    return prefs!.getString('$bookID');
+  }
+
+  Future saveReadBook(int bookID, int chapID) async {
+    List<String> listBook = getListHistoryBook('historyBook');
+    listBook.add(bookID.toString());
+    if (!checkHistoryBook(bookID)) {
+      await prefs!.setStringList('historyBook', listBook);
+      await prefs!.setString('$bookID', chapID.toString());
+    }
+  }
 }

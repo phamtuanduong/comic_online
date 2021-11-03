@@ -2,8 +2,10 @@ import 'package:comic_online/constants.dart';
 import 'package:comic_online/global.dart';
 import 'package:comic_online/models/models.dart';
 import 'package:comic_online/models/truyen_chapter.dart';
+import 'package:comic_online/screens/read_view_screen/read_view_screen.dart';
 import 'package:comic_online/services/truyen_services/follow_service.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_chapter_service.dart';
+import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:comic_online/style/colors.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,8 +18,11 @@ class TruyenDetailController extends GetxController
 
   bool isFollow = false;
   bool isLike = false;
+  bool isReaded = false;
 
   late int maxLine = 5;
+
+  int lastChap = 0;
 
   TruyenDetailController(TruyenModel truyenModel) {
     _truyenModel = truyenModel;
@@ -27,8 +32,17 @@ class TruyenDetailController extends GetxController
   @override
   void onInit() async {
     super.onInit();
-    Future<List<TruyenChapter>> _futureOfList =
-        GetTruyenChapterService().fetchData(_truyenModel.id);
+    Future<List<TruyenChapter>> _futureOfList = GetTruyenChapterService()
+        .fetchData(_truyenModel.id, model: _truyenModel);
+
+    isReaded = SharedPreferenceData.instance.checkHistoryBook(_truyenModel.id);
+    if (isReaded) {
+      String? temp =
+          SharedPreferenceData.instance.getHistoryBook(_truyenModel.id);
+      if (temp != null) {
+        lastChap = int.parse(temp);
+      }
+    } else {}
 
     await Future.delayed(const Duration(milliseconds: 100));
 
@@ -40,6 +54,18 @@ class TruyenDetailController extends GetxController
               update(),
             }
         });
+  }
+
+  String getNameLastChap() {
+    if (!_truyenModel.listChapters.isNotEmpty) {
+      return "";
+    }
+
+    return _truyenModel.listChapters
+        .where((element) => element.id == lastChap)
+        .first
+        .getNameUpcase()
+        .split(" - ")[1];
   }
 
   void viewDesMore(int line) {
@@ -139,7 +165,7 @@ class TruyenDetailController extends GetxController
         Get.snackbar("Thao tác thất bại", "Bạn chưa đăng nhập");
       }
     } else {
-      _truyenModel.listFollowBook.clear();
+      _truyenModel.followBook = null;
       isFollow =
           !await FollowService().postData(_truyenModel, action: "delete");
     }
@@ -149,4 +175,9 @@ class TruyenDetailController extends GetxController
   }
 
   List<TruyenChapter> getListChap() => _truyenModel.listChapters;
+
+  void readChapFirst() {
+    Get.to(ReadViewScreen(
+        _truyenModel.listChapters[_truyenModel.listChapters.length - 2]));
+  }
 }

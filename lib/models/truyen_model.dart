@@ -22,7 +22,7 @@ class TruyenModel {
   List<String> categories;
   bool isFollow;
 
-  List<FollowBookModel> listFollowBook = [];
+  FollowBookModel? followBook;
 
   List<TruyenChapter> listChapters = [];
   TruyenModel({
@@ -143,7 +143,7 @@ class TruyenModel {
 
   @override
   String toString() {
-    return 'TruyenModel(id: $id, authorID: $authorID, name: $name, tag: $tag, description: $description, avtBook: $avtBook, rate: $rate, rateCount: $rateCount, follow: $follow, likeCount: $likeCount, status: $status, lastNumChap: $lastNumChap, totalView: $totalView, lastUpdate: $lastUpdate, categories: $categories, isFollow: $isFollow, listFollowBook: $listFollowBook, listChapters: $listChapters)';
+    return 'TruyenModel(id: $id, authorID: $authorID, name: $name, tag: $tag, description: $description, avtBook: $avtBook, rate: $rate, rateCount: $rateCount, follow: $follow, likeCount: $likeCount, status: $status, lastNumChap: $lastNumChap, totalView: $totalView, lastUpdate: $lastUpdate, categories: $categories, isFollow: $isFollow, listChapters: $listChapters)';
   }
 
   @override
@@ -167,7 +167,7 @@ class TruyenModel {
         other.lastUpdate == lastUpdate &&
         listEquals(other.categories, categories) &&
         other.isFollow == isFollow &&
-        listEquals(other.listFollowBook, listFollowBook) &&
+        other.followBook == followBook &&
         listEquals(other.listChapters, listChapters);
   }
 
@@ -189,7 +189,7 @@ class TruyenModel {
         lastUpdate.hashCode ^
         categories.hashCode ^
         isFollow.hashCode ^
-        listFollowBook.hashCode ^
+        followBook.hashCode ^
         listChapters.hashCode;
   }
 }
