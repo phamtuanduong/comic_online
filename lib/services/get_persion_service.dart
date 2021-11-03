@@ -14,7 +14,6 @@ class GetPersionService {
           "token": Global.token,
           "id": true,
         }));
-
     bool check = response.statusCode == 200 &&
         response.body != "DATA_ERROR" &&
         response.body != "TK_KHONG_HOP_LE" &&

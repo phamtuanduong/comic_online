@@ -3,6 +3,7 @@ import 'package:comic_online/models/truyen_chapter.dart';
 import 'package:comic_online/models/truyen_image.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_chapter_service.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_image.dart';
+import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -32,8 +33,11 @@ class ReadViewController extends GetxController
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+
+    SharedPreferenceData.instance
+        .saveReadBook(_truyenChapter.bookID, _truyenChapter.id);
 
     menuAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
@@ -63,30 +67,18 @@ class ReadViewController extends GetxController
 
     menuAnimationController.forward();
     isShowAction = false;
-
-    if (Global.listChapter != null) {
-      listChapter = Global.listChapter!;
-    } else {
-      Future<List<TruyenChapter>> _futureOfList =
-          GetTruyenChapterService().fetchData(_truyenChapter.bookID);
-      _futureOfList.then((listResult) => {
-            if (listResult.isNotEmpty)
-              {
-                Global.listChapter = listResult,
-                listChapter = listResult.toList(),
-              }
-          });
-    }
+    listChapter = _truyenChapter.truyenModel!.listChapters;
 
     loadImg(_truyenChapter);
   }
 
-  void nextChap() {
+  nextChap() {
     int nextIndex = listChapter.indexOf(buildReadView.last);
 
     if (nextIndex > 0 && (listChapter.length > nextIndex + 1)) {
       TruyenChapter nextChap = listChapter[nextIndex + 1];
       loadImg(nextChap);
+      SharedPreferenceData.instance.saveReadBook(nextChap.bookID, nextChap.id);
     } else {
       isEndChap = true;
       update();
@@ -96,22 +88,27 @@ class ReadViewController extends GetxController
   void loadImg(TruyenChapter truyenChapter) {
     Future<List<TruyenImgModel>> _futureOfList =
         GetTruyenImgService().fetchData(truyenChapter.id);
-
-    _futureOfList.then((listResult) => {
-          if (listResult.isNotEmpty)
-            {
-              truyenChapter.listImg = listResult,
-              title = truyenChapter.getNameUpcase(),
-              buildReadView.add(truyenChapter),
-              isLoad = true,
-              update(),
-              if (buildReadView.length < 2)
-                {
-                  menuAnimationController.reverse(),
-                  isShowAction = true,
-                }
-            }
-        });
+    buildReadView.add(truyenChapter);
+    try {
+      _futureOfList.then((listResult) => {
+            if (listResult.isNotEmpty)
+              {
+                truyenChapter.listImg = listResult,
+                title = truyenChapter.getNameUpcase(),
+                isLoad = true,
+                update(),
+                if (buildReadView.length < 2)
+                  {
+                    menuAnimationController.reverse(),
+                    isShowAction = true,
+                  }
+              }
+            else
+              {
+                nextChap(),
+              }
+          });
+    } catch (_) {}
   }
 
   void showMenuAction() {
@@ -124,7 +121,6 @@ class ReadViewController extends GetxController
   }
 
   void back(BuildContext context) {
-    Global.listChapter!.clear();
     Global.listChapter = null;
     Navigator.pop(context);
   }

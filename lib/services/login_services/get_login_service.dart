@@ -14,6 +14,7 @@ class GetLoginService {
           "password": pass,
         }));
 
+    print(response.body);
     if (response.statusCode == 200 &&
         response.body != "SAI_THONG_TIN_DANG_NHAP") {
       Map<String, dynamic> data =

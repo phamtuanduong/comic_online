@@ -38,7 +38,7 @@ class LoginController extends GetxController {
     if (password == "") {
       invalidTextPassword = "Vui lòng nhập mật khẩu";
       return false;
-    } else if (password.length < 2) {
+    } else if (password.length < 1) {
       invalidTextPassword = "Mật khẩu ít nhất 6 kí tự";
       return false;
     }
@@ -56,12 +56,17 @@ class LoginController extends GetxController {
       flag = await GetLoginService().fetchData(username, password);
       await Future.delayed(const Duration(seconds: 1));
       isLogin = false;
+
+      if (flag) {
+        SharedPreferenceData.instance.setToken(Global.token);
+        Get.to(const HomeScreen());
+      } else {
+        update();
+      }
+    } else {
+      flag = false;
     }
 
-    if (flag) {
-      SharedPreferenceData.instance.setToken(Global.token);
-    }
-    update();
     return flag;
   }
 }
