@@ -1,4 +1,5 @@
 import 'package:comic_online/controllers/home_controller.dart';
+import 'package:comic_online/screens/pages/follow_page.dart';
 import 'package:comic_online/screens/pages/history_page.dart';
 import 'package:comic_online/screens/pages/page.dart';
 import 'package:comic_online/style/style.dart';
@@ -30,7 +31,7 @@ class HomeScreen extends StatelessWidget {
               children: const [
                 TruyenPage(),
                 HistoryPage(),
-                EmptyPage(),
+                FollowPage(),
                 AccountPage()
               ],
             ),

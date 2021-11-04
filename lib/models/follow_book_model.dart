@@ -4,6 +4,8 @@ class FollowBookModel {
   int id;
   int bookID;
   int lastChap;
+  String namebook;
+  String avt;
   String lastChapUpdate;
   int newChap;
   String newChapUpdate;
@@ -12,6 +14,8 @@ class FollowBookModel {
     required this.id,
     required this.bookID,
     required this.lastChap,
+    required this.namebook,
+    required this.avt,
     required this.lastChapUpdate,
     required this.newChap,
     required this.newChapUpdate,
@@ -21,6 +25,8 @@ class FollowBookModel {
     int? id,
     int? bookID,
     int? lastChap,
+    String? namebook,
+    String? avt,
     String? lastChapUpdate,
     int? newChap,
     String? newChapUpdate,
@@ -28,6 +34,8 @@ class FollowBookModel {
     return FollowBookModel(
       id: id ?? this.id,
       bookID: bookID ?? this.bookID,
+      namebook: namebook ?? this.namebook,
+      avt: avt ?? this.avt,
       lastChap: lastChap ?? this.lastChap,
       lastChapUpdate: lastChapUpdate ?? this.lastChapUpdate,
       newChap: newChap ?? this.newChap,
@@ -40,6 +48,8 @@ class FollowBookModel {
       'id': id,
       'bookID': bookID,
       'lastChap': lastChap,
+      'namebook': namebook,
+      'avt': avt,
       'lastChapUpdate': lastChapUpdate,
       'newChap': newChap,
       'newChapUpdate': newChapUpdate,
@@ -51,6 +61,8 @@ class FollowBookModel {
       id: map['id'],
       bookID: map['bookID'],
       lastChap: map['lastChap'],
+      namebook: map['namebook'],
+      avt: map['avt'],
       lastChapUpdate: map['lastChapUpdate'],
       newChap: map['newChap'],
       newChapUpdate: map['newChapUpdate'],
@@ -64,7 +76,7 @@ class FollowBookModel {
 
   @override
   String toString() {
-    return 'FollowBookModel(id: $id, bookID: $bookID, lastChap: $lastChap, lastChapUpdate: $lastChapUpdate, newChap: $newChap, newChapUpdate: $newChapUpdate)';
+    return 'FollowBookModel(id: $id, bookID: $bookID, lastChap: $lastChap, namebook: $namebook, avt: $avt, lastChapUpdate: $lastChapUpdate, newChap: $newChap, newChapUpdate: $newChapUpdate)';
   }
 
   @override
@@ -75,6 +87,8 @@ class FollowBookModel {
         other.id == id &&
         other.bookID == bookID &&
         other.lastChap == lastChap &&
+        other.namebook == namebook &&
+        other.avt == avt &&
         other.lastChapUpdate == lastChapUpdate &&
         other.newChap == newChap &&
         other.newChapUpdate == newChapUpdate;
@@ -85,6 +99,8 @@ class FollowBookModel {
     return id.hashCode ^
         bookID.hashCode ^
         lastChap.hashCode ^
+        namebook.hashCode ^
+        avt.hashCode ^
         lastChapUpdate.hashCode ^
         newChap.hashCode ^
         newChapUpdate.hashCode;
