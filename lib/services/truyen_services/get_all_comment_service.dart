@@ -1,13 +1,13 @@
 import 'dart:convert';
-
 import 'package:comic_online/global.dart';
 import 'package:comic_online/models/comment_model.dart';
 import 'package:http/http.dart' as http;
 
-class GetAllCommentServices {
-  Future<List<CommentModel>> fetchData(int bookID, {int count = 20}) async {
-    Uri uri = Uri.parse("${Global.baseApiUri}/get_comments_all.php");
-
+class GetCommentParentByChapServices {
+  Future<List<CommentModel>> fetchData(int listchapID, {int count = 20}) async {
+    Uri uri = Uri.parse("${Global.baseApiUri}/get_comments_parent_by_chap.php");
+    // ignore: avoid_print
+    print(listchapID);
     http.Response response = await http.post(
       uri,
       headers: Global.headers,
@@ -15,13 +15,16 @@ class GetAllCommentServices {
         'token': Global.token,
         'page': '1',
         'pageCount': count,
-        'BookID': bookID,
+        'ListChapID': listchapID,
       }),
     );
     if (response.statusCode == 200 && response.body != "DATA_ERROR") {
       List<dynamic> listJson = json.decode(response.body);
       var list = listJson.map((e) => CommentModel.fromMap(e)).toList();
       if (list.isNotEmpty) {
+        for (var item in list) {
+          print(item);
+        }
         return list;
       }
     } else {
@@ -51,7 +54,6 @@ class GetCommentParentServices {
       var list = listJson.map((e) => CommentModel.fromMap(e)).toList();
       if (list.isNotEmpty) {
         for (var item in list) {
-          // ignore: avoid_print
           print(item);
         }
         return list;
@@ -83,7 +85,6 @@ class GetCommentChildServices {
       var list = listJson.map((e) => CommentModel.fromMap(e)).toList();
       if (list.isNotEmpty) {
         for (var item in list) {
-          // ignore: avoid_print
           print(item);
         }
         return list;

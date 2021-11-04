@@ -18,7 +18,6 @@ class TruyenChapter {
 
   List<TruyenImgModel> listImg = [];
 
-  List<CommentModel> listAllComments = [];
   List<CommentModel> listCommentsParent = [];
   List<CommentModel> listCommentsChild = [];
 

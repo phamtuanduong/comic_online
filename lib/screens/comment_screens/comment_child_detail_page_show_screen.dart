@@ -1,13 +1,13 @@
 import 'package:comic_online/components/componets.dart';
 import 'package:comic_online/constants.dart';
-import 'package:comic_online/controllers/truyen_controllers/comment_controller.dart';
+import 'package:comic_online/controllers/comment_controllers/comment_child_detail_page_controller.dart';
 import 'package:comic_online/models/models.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CommentDetailParentViewScreen extends StatelessWidget {
-  const CommentDetailParentViewScreen(
+class CommentChildDetailPageShowScreen extends StatelessWidget {
+  const CommentChildDetailPageShowScreen(
     this.truyenModel,
     this.parentID,
     this.index, {
@@ -20,8 +20,8 @@ class CommentDetailParentViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: GetBuilder<CommentController>(
-          init: CommentController(truyenModel, parentID),
+        child: GetBuilder<CommentChildDetailPageController>(
+          init: CommentChildDetailPageController(truyenModel, parentID),
           builder: (_) => Scaffold(
             body: SafeArea(
               child: Column(
@@ -38,8 +38,10 @@ class CommentDetailParentViewScreen extends StatelessWidget {
                   Expanded(
                       flex: 1,
                       child: Container(
-                          color: Colors.white,
-                          child: _FooterAction(_, _.textCommentController)))
+                        color: Colors.white,
+                        child: _FooterAction(
+                            _, truyenModel, _.textCommentController, index),
+                      )),
                 ],
               ),
             ),
@@ -133,7 +135,7 @@ class _HeaderAction extends StatelessWidget {
   }) : super(key: key);
 
   final TruyenModel truyenModel;
-  final CommentController controller;
+  final CommentChildDetailPageController controller;
   final int index;
   @override
   Widget build(BuildContext context) {
@@ -222,11 +224,15 @@ class _ContentTitle extends StatelessWidget {
 class _FooterAction extends StatelessWidget {
   const _FooterAction(
     this.controller,
-    this.textCommentController, {
+    this.truyenModel,
+    this.textCommentController,
+    this.index, {
     Key? key,
   }) : super(key: key);
-  final CommentController controller;
+  final CommentChildDetailPageController controller;
+  final TruyenModel truyenModel;
   final TextEditingController textCommentController;
+  final int index;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -242,10 +248,12 @@ class _FooterAction extends StatelessWidget {
                 prefixIcon: const Icon(Icons.comment),
                 suffixIcon: IconButton(
                     onPressed: () {
-                      // ignore: avoid_print
-                      print(textCommentController.text);
-                      // controller.getText(textCommentController);
-                      // textCommentController.clear();
+                      controller.addCommentChildDetailPage(
+                        truyenModel.listCommentsParent[index].listchapID,
+                        textCommentController.text,
+                        truyenModel.listCommentsParent[index].id,
+                      );
+                      textCommentController.clear();
                     },
                     icon: const Icon(Icons.check))),
             controller: textCommentController,

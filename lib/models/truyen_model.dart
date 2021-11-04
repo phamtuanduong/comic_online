@@ -26,7 +26,6 @@ class TruyenModel {
 
   List<TruyenChapter> listChapters = [];
 
-  List<CommentModel> listAllComments = [];
   List<CommentModel> listCommentsParent = [];
   List<CommentModel> listCommentsChild = [];
 

@@ -4,7 +4,8 @@ import 'package:comic_online/components/open_screen_animation.dart';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/truyen_controllers/truyen_detail_controller.dart';
 import 'package:comic_online/models/models.dart';
-import 'package:comic_online/screens/read_view_screen/comment_view_screen.dart';
+import 'package:comic_online/screens/comment_screens/comment_child_detail_page_show_screen.dart';
+import 'package:comic_online/screens/comment_screens/comment_parent_detail_page_show_screen.dart';
 import 'package:comic_online/screens/read_view_screen/read_view_screen.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
@@ -25,39 +26,44 @@ class TruyenDetailScreen extends StatelessWidget {
             children: [
               _Header(truyenModel: truyenModel),
               Expanded(
-                  flex: 6,
-                  child: Container(
-                      color: const Color(0xFFEEEEEE),
-                      child: CustomScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        slivers: [
-                          _ContentSliverAppBar(_controller,
-                              truyenModel: truyenModel),
-                          _ContentInfomation(_controller,
-                              truyenModel: truyenModel),
-                          const SliverToBoxAdapter(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: defaultPadding / 2),
-                              child: _ContentTitle("Bình luận mới nhất"),
-                            ),
+                flex: 6,
+                child: Container(
+                    color: const Color(0xFFEEEEEE),
+                    child: CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                        _ContentSliverAppBar(_controller,
+                            truyenModel: truyenModel),
+                        _ContentInfomation(_controller,
+                            truyenModel: truyenModel),
+                        const SliverToBoxAdapter(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: defaultPadding / 2),
+                            child: _ContentTitle("Bình luận mới nhất"),
                           ),
-                          SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (_, index) => _CommentLoadDetails(
-                                        controller: _controller,
-                                        truyenModel: truyenModel,
-                                        index: index,
-                                        onPress: () {},
-                                      ),
-                                  childCount:
-                                      truyenModel.listCommentsParent.length))
-                        ],
-                      ))),
+                        ),
+                        SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                          (_, index) => _CommentLoadDetails(
+                            controller: _controller,
+                            truyenModel: truyenModel,
+                            index: index,
+                            onPress: () {},
+                          ),
+                          childCount:
+                              (truyenModel.listCommentsParent.length > 3)
+                                  ? 3
+                                  : truyenModel.listCommentsParent.length,
+                        ))
+                      ],
+                    )),
+              ),
               Expanded(
                   flex: 1,
                   child: Container(
-                      color: Colors.white, child: _Footer(_controller)))
+                      color: Colors.white,
+                      child: _Footer(_controller, truyenModel)))
             ],
           ),
         ),
@@ -130,7 +136,7 @@ class _CommentLoadDetails extends StatelessWidget {
                         onPressed: open,
                         child: const Icon(Icons.comment),
                       ),
-                      openBuilder: CommentDetailParentViewScreen(
+                      openBuilder: CommentChildDetailPageShowScreen(
                         truyenModel,
                         truyenModel.listCommentsParent[index].id,
                         index,
@@ -138,17 +144,20 @@ class _CommentLoadDetails extends StatelessWidget {
                     ),
                   )
                 ],
-              )
+              ),
             ])));
   }
 }
 
 class _Footer extends StatelessWidget {
   const _Footer(
-    this.controller, {
+    this.controller,
+    this.truyenModel, {
     Key? key,
   }) : super(key: key);
   final TruyenDetailController controller;
+  final TruyenModel truyenModel;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -172,12 +181,18 @@ class _Footer extends StatelessWidget {
                 style: TextButton.styleFrom(
                     backgroundColor: const Color(0xFFFF1744)))
             : const SizedBox(),
-        TextButton(
-            onPressed: () {},
-            child: Text("Bình luận",
-                style: textDetailButtonStyle.copyWith(color: Colors.white)),
-            style:
-                TextButton.styleFrom(backgroundColor: const Color(0xFF1A94FF))),
+        SizedBox(
+          child: OpenScreenAnimation(
+            closedBuilder: (BuildContext _, VoidCallback open) => TextButton(
+              onPressed: open,
+              child: Text("Bình luận",
+                  style: textDetailButtonStyle.copyWith(color: Colors.white)),
+              style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFF1A94FF)),
+            ),
+            openBuilder: CommentParentDetailPageShowScreen(truyenModel),
+          ),
+        ),
         TextButton(
             onPressed: () async {
               await controller.showListChapter(
