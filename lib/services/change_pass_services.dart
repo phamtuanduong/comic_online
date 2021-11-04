@@ -14,8 +14,6 @@ class ChangePassServices {
           "password": password,
         }));
 
-    print(response.body);
-
     bool check = response.statusCode == 200 &&
         response.body != "DATA_ERROR" &&
         response.body != "TK_KHONG_HOP_LE" &&

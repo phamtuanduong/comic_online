@@ -1,9 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:comic_online/components/open_screen_animation.dart';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/follow_page_controller.dart';
-import 'package:comic_online/models/models.dart';
-import 'package:comic_online/screens/screens.dart';
 import 'package:comic_online/style/colors.dart';
 import 'package:comic_online/style/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,11 +20,9 @@ class FollowPage extends StatelessWidget {
             controller: _controller.scrollController,
             physics: const BouncingScrollPhysics(),
             itemCount: _controller.listFollow.length,
-            itemBuilder: (context,
-                    index) => 
-                GestureDetector(
+            itemBuilder: (context, index) => GestureDetector(
                   onTap: () async {
-                     await _controller
+                    await _controller
                         .readBookFollow(_controller.listFollow[index].bookID);
                   },
                   child: _ListBookItem(
@@ -100,7 +95,7 @@ class _ListBookItem extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 1, left: 3),
                           child: Text(
-                             "NewChap: ${controller.listFollow[index].newChap.toString()}",
+                              "NewChap: ${controller.listFollow[index].newChap.toString()}",
                               style: textSubStyle,
                               textAlign: TextAlign.center),
                         ),

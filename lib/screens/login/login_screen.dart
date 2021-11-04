@@ -1,7 +1,6 @@
 import 'package:comic_online/components/componets.dart';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/login_controllers/login_controller.dart';
-import 'package:comic_online/screens/home/home_screen.dart';
 import 'package:comic_online/screens/login/register_screen.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';

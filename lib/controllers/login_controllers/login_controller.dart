@@ -38,7 +38,7 @@ class LoginController extends GetxController {
     if (password == "") {
       invalidTextPassword = "Vui lòng nhập mật khẩu";
       return false;
-    } else if (password.length < 1) {
+    } else if (password.length < 2) {
       invalidTextPassword = "Mật khẩu ít nhất 6 kí tự";
       return false;
     }

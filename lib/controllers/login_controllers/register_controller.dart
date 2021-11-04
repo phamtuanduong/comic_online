@@ -1,8 +1,6 @@
-import 'package:comic_online/global.dart';
 import 'package:comic_online/models/account_model.dart';
 import 'package:comic_online/screens/login/login_screen.dart';
 import 'package:comic_online/services/login_services/register_services.dart';
-import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
