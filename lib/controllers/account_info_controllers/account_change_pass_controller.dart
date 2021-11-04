@@ -27,7 +27,7 @@ class AccChangePassController extends GetxController {
     if (password == "") {
       invalidTextPassword = "Vui lòng nhập mật khẩu";
       return false;
-    } else if (password.length < 1) {
+    } else if (password.length < 2) {
       invalidTextPassword = "Mật khẩu ít nhất 6 kí tự";
       return false;
     }
@@ -39,7 +39,7 @@ class AccChangePassController extends GetxController {
     if (rePassword == "") {
       invalidTextRePassword = "Vui lòng nhập mật khẩu";
       return false;
-    } else if (rePassword.length < 1) {
+    } else if (rePassword.length < 2) {
       invalidTextRePassword = "Mật khẩu ít nhất 6 kí tự";
       return false;
     }

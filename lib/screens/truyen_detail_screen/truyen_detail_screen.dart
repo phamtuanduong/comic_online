@@ -166,7 +166,9 @@ class _Footer extends StatelessWidget {
         ),
         controller.isReaded
             ? TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.docTiep();
+                },
                 child: Text("Đọc tiếp C.${controller.getNameLastChap()}",
                     style: textDetailButtonStyle.copyWith(color: Colors.white)),
                 style: TextButton.styleFrom(
