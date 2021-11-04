@@ -83,6 +83,13 @@ class TruyenDetailController extends GetxController
         .split(" - ")[1];
   }
 
+  void docTiep() {
+    TruyenChapter truyenChapter = _truyenModel.listChapters
+        .where((element) => element.id == lastChap)
+        .first;
+    Get.to(ReadViewScreen(truyenChapter));
+  }
+
   void viewDesMore(int line) {
     if (line == maxLine) {
       maxLine = 5;

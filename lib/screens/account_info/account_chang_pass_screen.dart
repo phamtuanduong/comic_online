@@ -80,7 +80,7 @@ class AccChangPassScreen extends StatelessWidget {
                         Get.snackbar(
                             "Đổi mật khẩu thành công", "Thay đổi thành công",
                             duration: const Duration(milliseconds: 900),
-                            icon: const Icon(Icons.error),
+                            icon: const Icon(Icons.check),
                             backgroundColor: Colors.white54,
                             snackbarStatus: (status) {
                           if (status == SnackbarStatus.CLOSED) {

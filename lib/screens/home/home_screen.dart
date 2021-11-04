@@ -1,6 +1,7 @@
 import 'package:comic_online/controllers/home_controller.dart';
 import 'package:comic_online/screens/pages/history_page.dart';
 import 'package:comic_online/screens/pages/page.dart';
+import 'package:comic_online/screens/screens.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,9 +17,20 @@ class HomeScreen extends StatelessWidget {
       init: HomeController(),
       builder: (_controller) => Scaffold(
         appBar: _controller.tabController.index != 3
-            ? const PreferredSize(
-                preferredSize: Size.fromHeight(50.0),
-                child: CustomAppBar(),
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(50.0),
+                child: CustomAppBar(
+                  actionClick: () {
+                    Get.to(
+                      const ViewWithCateScreen(),
+                    );
+                  },
+                  searchClick: () {
+                    Get.to(
+                      const ViewSearchScreen(),
+                    );
+                  },
+                ),
               )
             : null,
         body: SafeArea(
