@@ -7,7 +7,7 @@ class GetCommentParentByChapServices {
   Future<List<CommentModel>> fetchData(int listchapID, {int count = 20}) async {
     Uri uri = Uri.parse("${Global.baseApiUri}/get_comments_parent_by_chap.php");
     // ignore: avoid_print
-    print(listchapID);
+    print('List Chap ID:' + listchapID.toString());
     http.Response response = await http.post(
       uri,
       headers: Global.headers,
@@ -22,9 +22,6 @@ class GetCommentParentByChapServices {
       List<dynamic> listJson = json.decode(response.body);
       var list = listJson.map((e) => CommentModel.fromMap(e)).toList();
       if (list.isNotEmpty) {
-        for (var item in list) {
-          print(item);
-        }
         return list;
       }
     } else {
@@ -53,9 +50,6 @@ class GetCommentParentServices {
       List<dynamic> listJson = json.decode(response.body);
       var list = listJson.map((e) => CommentModel.fromMap(e)).toList();
       if (list.isNotEmpty) {
-        for (var item in list) {
-          print(item);
-        }
         return list;
       }
     } else {
@@ -84,9 +78,6 @@ class GetCommentChildServices {
       List<dynamic> listJson = json.decode(response.body);
       var list = listJson.map((e) => CommentModel.fromMap(e)).toList();
       if (list.isNotEmpty) {
-        for (var item in list) {
-          print(item);
-        }
         return list;
       }
     } else {
