@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/account_page_controller.dart';
 import 'package:comic_online/screens/account_info/account_chang_pass_screen.dart';
+import 'package:comic_online/screens/account_info/account_info_screen.dart';
 import 'package:comic_online/screens/login/login_screen.dart';
 import 'package:comic_online/style/colors.dart';
 import 'package:comic_online/style/style.dart';
@@ -64,7 +65,11 @@ class AccountPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             _ButtomAction(
-                              onClick: () {},
+                              onClick: () {
+                                Get.to(AccountInfoScreen(
+                                  persionModel: _c.persionModel,
+                                ));
+                              },
                               text: "Thông tin tài khoản",
                               color: primaryColor.withOpacity(0.25),
                             ),

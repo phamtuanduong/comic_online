@@ -56,19 +56,6 @@ class TruyenDetailController extends GetxController
             }
         });
 
-    Future<List<CommentModel>> _futureOfListAllComments =
-        GetAllCommentServices().fetchData(_truyenModel.id);
-
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    _futureOfListAllComments.then((listResultComment) => {
-          if (listResultComment.isNotEmpty)
-            {
-              _truyenModel.listAllComments = listResultComment.toList(),
-              update(),
-            }
-        });
-
     Future<List<CommentModel>> _futureOfListCommentsParent =
         GetCommentParentServices().fetchData(_truyenModel.id);
 
@@ -94,6 +81,13 @@ class TruyenDetailController extends GetxController
         .first
         .getNameUpcase()
         .split(" - ")[1];
+  }
+
+  void docTiep() {
+    TruyenChapter truyenChapter = _truyenModel.listChapters
+        .where((element) => element.id == lastChap)
+        .first;
+    Get.to(ReadViewScreen(truyenChapter));
   }
 
   void viewDesMore(int line) {
@@ -208,6 +202,4 @@ class TruyenDetailController extends GetxController
     Get.to(ReadViewScreen(
         _truyenModel.listChapters[_truyenModel.listChapters.length - 2]));
   }
-
-  List<CommentModel> getListComment() => _truyenModel.listAllComments;
 }

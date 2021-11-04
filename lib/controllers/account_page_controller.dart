@@ -13,19 +13,13 @@ class AccountPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    print("object");
     persionModel = PersionModel(id: 0, fullname: "", email: "", gender: 0);
     PersionModel? persion = await GetPersionService().fetchData();
-    print(persion);
+
     if (persion != null) {
       persionModel = persion;
       update();
     }
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
   }
 
   void dangXuat() {

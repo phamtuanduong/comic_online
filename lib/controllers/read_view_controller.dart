@@ -1,7 +1,8 @@
 import 'package:comic_online/global.dart';
+import 'package:comic_online/models/models.dart';
 import 'package:comic_online/models/truyen_chapter.dart';
 import 'package:comic_online/models/truyen_image.dart';
-import 'package:comic_online/services/truyen_services/get_truyen_chapter_service.dart';
+import 'package:comic_online/services/truyen_services/get_all_comment_service.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_image.dart';
 import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:flutter/animation.dart';
@@ -70,6 +71,20 @@ class ReadViewController extends GetxController
     listChapter = _truyenChapter.truyenModel!.listChapters;
 
     loadImg(_truyenChapter);
+
+    Future<List<CommentModel>> _futureOfListCommentsParent =
+        GetCommentParentByChapServices().fetchData(_truyenChapter.id);
+
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    _futureOfListCommentsParent.then((listResultCommentParent) => {
+          if (listResultCommentParent.isNotEmpty)
+            {
+              _truyenChapter.listCommentsParent =
+                  listResultCommentParent.toList(),
+              update(),
+            }
+        });
   }
 
   nextChap() {

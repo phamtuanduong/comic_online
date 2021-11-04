@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:comic_online/components/buttom_back.dart';
+import 'package:comic_online/components/componets.dart';
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/read_view_controller.dart';
 import 'package:comic_online/models/truyen_chapter.dart';
+import 'package:comic_online/screens/comment_screens/comment_child_by_chap_show_screen.dart';
+import 'package:comic_online/screens/comment_screens/comment_parent_by_chap_show_screen.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -104,35 +107,37 @@ class _ReadContent extends StatelessWidget {
                   ))
               .toList(),
         ),
-
-        //Bình luận, hiển thị vài bình luận, 3 -> 4 bình luận mới nhất cho chương này
-
         Text(
           "Bình luận",
           style: textDetailDsChapStyle,
         ),
         Column(
-          children: const [
-            Text("Bình luận 1"),
-            Text("Bình luận 1"),
-            Text("Bình luận 1"),
-            Text("...")
-          ],
+          children: (truyenChapter.listCommentsParent.length >= 3)
+              ? [
+                  _CommentEndChapStyle(truyenChapter: truyenChapter, index: 0),
+                  _CommentEndChapStyle(truyenChapter: truyenChapter, index: 1),
+                  _CommentEndChapStyle(truyenChapter: truyenChapter, index: 2),
+                  const Text("...")
+                ]
+              : const [
+                  Text("Chưa có bình luận!"),
+                ],
         ),
-
         Padding(
           padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
-          child: OutlinedButton(
-            onPressed: () {
-              controller.nextChap();
-            },
-            child: Text(
-              "Viết bình luận",
-              style: textDetailDsChapStyle,
+          child: OpenScreenAnimation(
+            closedBuilder: (BuildContext _, VoidCallback open) =>
+                OutlinedButton(
+              onPressed: open,
+              child: Text(
+                "Viết bình luận",
+                style: textDetailDsChapStyle,
+              ),
+              style: OutlinedButton.styleFrom(
+                  shape: const StadiumBorder(),
+                  side: const BorderSide(color: primaryColor)),
             ),
-            style: OutlinedButton.styleFrom(
-                shape: const StadiumBorder(),
-                side: const BorderSide(color: primaryColor)),
+            openBuilder: CommentParentByChapShowScreen(truyenChapter),
           ),
         ),
         controller.isLoad
@@ -144,6 +149,79 @@ class _ReadContent extends StatelessWidget {
         const SizedBox(height: defaultPadding / 2)
       ],
     );
+  }
+}
+
+class _CommentEndChapStyle extends StatelessWidget {
+  const _CommentEndChapStyle({
+    Key? key,
+    required this.truyenChapter,
+    required this.index,
+  }) : super(key: key);
+
+  final TruyenChapter truyenChapter;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        color: const Color(0xFFFFFFFF),
+        margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+        child: Container(
+            padding: const EdgeInsets.all(5),
+            child: Row(children: [
+              Container(
+                margin: const EdgeInsets.all(defaultPadding / 4),
+                width: 50.0,
+                height: 50.0,
+                child: Image.asset('assets/images/guest_icon.png'),
+                decoration: BoxDecoration(
+                  color: Colors.white60,
+                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  border: Border.all(
+                    color: menuUnselectedColor,
+                    width: 1.0,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        truyenChapter.listCommentsParent[index].userName +
+                            ":" +
+                            truyenChapter.listCommentsParent[index].chapName,
+                        style: textDetailDsChapStyle),
+                    Text(
+                      truyenChapter.listCommentsParent[index].content,
+                      style: textStyleSearch.copyWith(color: Colors.black87),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    child: OpenScreenAnimation(
+                      closedBuilder: (BuildContext _, VoidCallback open) =>
+                          TextButton(
+                        onPressed: open,
+                        child: const Icon(Icons.comment),
+                      ),
+                      openBuilder: CommentChildByChapShowScreen(
+                        truyenChapter,
+                        truyenChapter.listCommentsParent[index].id,
+                        index,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ])));
   }
 }
 

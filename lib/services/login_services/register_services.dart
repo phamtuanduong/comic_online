@@ -68,6 +68,7 @@ class RegisterService {
         headers: Global.headers,
         body: json.encode({
           "action": "UPDATE",
+          "ID": persionModel.id,
           "FullName": persionModel.fullname,
           "Email": persionModel.email,
           "Gender": persionModel.gender,

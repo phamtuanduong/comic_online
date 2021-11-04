@@ -61,4 +61,19 @@ class SharedPreferenceData {
       await prefs!.setString('$bookID', chapID.toString());
     }
   }
+
+  List<String> getListHistorySearch() {
+    List<String> list;
+    list = prefs!.getStringList('hisSearch') ?? [];
+    return list;
+  }
+
+  Future saveHisSearch(String search) async {
+    List<String> listSearch = getListHistorySearch();
+    int index = listSearch.indexOf(search);
+    if (index < 0) {
+      listSearch.add(search);
+      await prefs!.setStringList('hisSearch', listSearch);
+    }
+  }
 }
