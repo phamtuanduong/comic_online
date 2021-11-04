@@ -24,17 +24,7 @@ class FollowPage extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             itemCount: _controller.listFollow.length,
             itemBuilder: (context,
-                    index) => /*OpenScreenAnimation(
-            closedBuilder: (BuildContext _, VoidCallback openContainer) =>
-                GestureDetector(
-              onTap: openContainer,
-              child: _ListBookItem(
-                controller: _controller,
-                index: index,
-              ),
-            ),
-            openBuilder: TruyenDetailScreen(_controller.listHisInfo[index]),
-          ),*/
+                    index) => 
                 GestureDetector(
                   onTap: () async {
                      await _controller
