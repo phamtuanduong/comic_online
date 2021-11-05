@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class GetTruyenServices {
   Future<List<TruyenModel>> fetchData({int count = 20}) async {
     Uri uri = Uri.parse("${Global.baseApiUri}/get_books.php");
-
+    print("object");
     http.Response response = await http.post(
       uri,
       headers: Global.headers,
@@ -22,6 +22,7 @@ class GetTruyenServices {
       List<dynamic> listJson = json.decode(response.body);
 
       var list = listJson.map((e) => TruyenModel.fromMap(e)).toList();
+      print(list.first);
       if (list.isNotEmpty) {
         return list;
       }

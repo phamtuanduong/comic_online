@@ -105,14 +105,16 @@ class RegisterController extends GetxController {
         invalidTextUser = null;
 
         flag = await RegisterService().register(account);
+
+        if (flag) {
+      Get.to(const LoginScreen());
+    }
       }
       await Future.delayed(const Duration(seconds: 1));
       isRegisting = false;
     }
 
-    if (flag) {
-      Get.to(const LoginScreen());
-    }
+    
     update();
     return flag;
   }
