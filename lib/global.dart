@@ -3,7 +3,8 @@ import 'package:comic_online/services/login_services/get_login_service.dart';
 import 'package:comic_online/shared/shared_preferences_data.dart';
 
 class Global {
-  static String baseApiUri = "http://192.168.0.108/ComicOnlineService/";
+  // static String baseApiUri = "http://192.168.0.108/ComicOnlineService/";
+  static String baseApiUri = "http://14.252.37.247:88/ComicOnlineService/";
   static String getData = "https://hitruyen.vip/";
 
   static Map<String, String> headers = <String, String>{
