@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:comic_online/global.dart';
+
 class TruyenImgModel {
   int id;
   String path;
@@ -7,6 +9,20 @@ class TruyenImgModel {
     required this.id,
     required this.path,
   });
+
+  String getLink(int bookID, int chapID) {
+    if (!path.contains("https")) {
+      return Global.baseApiUri +
+          "/uploads/" +
+          "BOOK-" +
+          bookID.toString() +
+          "/CHAP-" +
+          chapID.toString() +
+          "/" +
+          path;
+    }
+    return path;
+  }
 
   TruyenImgModel copyWith({
     int? id,
@@ -34,7 +50,8 @@ class TruyenImgModel {
 
   String toJson() => json.encode(toMap());
 
-  factory TruyenImgModel.fromJson(String source) => TruyenImgModel.fromMap(json.decode(source));
+  factory TruyenImgModel.fromJson(String source) =>
+      TruyenImgModel.fromMap(json.decode(source));
 
   @override
   String toString() => 'TruyenImgModel(id: $id, path: $path)';
@@ -42,10 +59,8 @@ class TruyenImgModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
-    return other is TruyenImgModel &&
-      other.id == id &&
-      other.path == path;
+
+    return other is TruyenImgModel && other.id == id && other.path == path;
   }
 
   @override

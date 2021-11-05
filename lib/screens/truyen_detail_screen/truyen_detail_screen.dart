@@ -291,7 +291,7 @@ class _ContentChapBanner extends StatelessWidget {
   final Function onPress;
   @override
   Widget build(BuildContext context) {
-    return truyenModel.listChapters.length >= index
+    return truyenModel.listChapters.length > index
         ? SizedBox(
             width: double.infinity,
             child: OpenScreenAnimation(
