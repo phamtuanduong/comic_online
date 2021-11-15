@@ -109,21 +109,21 @@ class _ReadContent extends StatelessWidget {
               .toList(),
         ),
         Text(
-          "Bình luận",
+          "Bình luận: " + controller.title,
           style: textDetailDsChapStyle,
         ),
-        Column(
-          children: (truyenChapter.listCommentsParent.length >= 3)
-              ? [
-                  _CommentEndChapStyle(truyenChapter: truyenChapter, index: 0),
-                  _CommentEndChapStyle(truyenChapter: truyenChapter, index: 1),
-                  _CommentEndChapStyle(truyenChapter: truyenChapter, index: 2),
-                  const Text("...")
-                ]
-              : const [
-                  Text("Chưa có bình luận!"),
-                ],
-        ),
+        // Column(
+        //   children: (truyenChapter.listCommentsParent.length >= 3)
+        //       ? [
+        //           _CommentEndChapStyle(truyenChapter: truyenChapter, index: 0),
+        //           _CommentEndChapStyle(truyenChapter: truyenChapter, index: 1),
+        //           _CommentEndChapStyle(truyenChapter: truyenChapter, index: 2),
+        //           const Text("...")
+        //         ]
+        //       : const [
+        //           Text("Chưa có bình luận!"),
+        //         ],
+        // ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
           child: OpenScreenAnimation(
