@@ -166,7 +166,7 @@ class LoginScreen extends StatelessWidget {
                     onTap: () {
                       _controller.useGuest();
                     },
-                    child: Text("Khách", style: textDetailButtonStyle),
+                    child: Text("Đọc ngay", style: textDetailButtonStyle),
                   ),
                 ],
               )

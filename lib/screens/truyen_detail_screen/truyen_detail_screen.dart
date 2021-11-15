@@ -7,6 +7,7 @@ import 'package:comic_online/models/models.dart';
 import 'package:comic_online/screens/comment_screens/comment_child_detail_page_show_screen.dart';
 import 'package:comic_online/screens/comment_screens/comment_parent_detail_page_show_screen.dart';
 import 'package:comic_online/screens/read_view_screen/read_view_screen.dart';
+import 'package:comic_online/screens/truyen_detail_screen/components/bottomsheet_review_book.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -333,21 +334,27 @@ class _ContentSliverAppBar extends StatelessWidget {
     return SliverAppBar(
       pinned: true,
       leadingWidth: double.maxFinite,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: defaultPadding / 2),
+      leading: GestureDetector(
+        onTap: () async {
+          await controller.layDanhGia();
+          await controller.showListChapter(
+              context,
+              BottomSheetReviewBook(
+                controller: controller,
+              ));
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: controller.getRateStar(),
             ),
             const SizedBox(height: 2),
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Text("${truyenModel.rateCount} đánh giá",
-                  style: textSubStyle, textAlign: TextAlign.center),
-            )
+            Text("${truyenModel.rateCount} đánh giá",
+                style: textSubStyle, textAlign: TextAlign.center)
           ],
         ),
       ),

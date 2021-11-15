@@ -44,7 +44,7 @@ class RegisterController extends GetxController {
     if (password == "") {
       invalidTextPassword = "Vui lòng nhập mật khẩu";
       return false;
-    } else if (password.length < 2) {
+    } else if (password.length < 6) {
       invalidTextPassword = "Mật khẩu ít nhất 6 kí tự";
       return false;
     }
@@ -56,7 +56,7 @@ class RegisterController extends GetxController {
     if (rePassword == "") {
       invalidTextRePassword = "Vui lòng nhập mật khẩu";
       return false;
-    } else if (rePassword.length < 2) {
+    } else if (rePassword.length < 6) {
       invalidTextRePassword = "Mật khẩu ít nhất 6 kí tự";
       return false;
     }
@@ -107,14 +107,13 @@ class RegisterController extends GetxController {
         flag = await RegisterService().register(account);
 
         if (flag) {
-      Get.to(const LoginScreen());
-    }
+          Get.to(const LoginScreen());
+        }
       }
       await Future.delayed(const Duration(seconds: 1));
       isRegisting = false;
     }
 
-    
     update();
     return flag;
   }

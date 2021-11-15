@@ -1,6 +1,8 @@
 import 'package:comic_online/constants.dart';
+import 'package:comic_online/global.dart';
 import 'package:comic_online/screens/home/home_screen.dart';
 import 'package:comic_online/screens/screens.dart';
+import 'package:comic_online/services/login_services/get_login_service.dart';
 import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:comic_online/style/style.dart';
 import 'package:flutter/material.dart';
@@ -69,15 +71,16 @@ class FirstUseScreen extends StatelessWidget {
                 const SizedBox(height: defaultPadding * 2),
                 TextButton(
                   onPressed: () async {
-                    await SharedPreferenceData.instance.setToken("guest");
+                    await GetLoginService().getGuestLogin();
+                    await SharedPreferenceData.instance.setToken(Global.token);
                     Get.offAll(const HomeScreen());
                   },
                   child: const Text(
-                    "Khách",
-                    style: TextStyle(color: Color(0xFF414A5B)),
+                    "Đọc ngay",
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
-                      backgroundColor: Colors.greenAccent,
+                      backgroundColor: Colors.red,
                       primary: primaryColor,
                       fixedSize: const Size(200, 45),
                       shape: const StadiumBorder()),

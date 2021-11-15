@@ -7,7 +7,6 @@ import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:get/get.dart';
 
 class AccountPageController extends GetxController {
-  bool checkLogin() => Global.token == "guest" ? false : true;
   late PersionModel persionModel;
   late String username;
   @override
@@ -20,6 +19,16 @@ class AccountPageController extends GetxController {
       persionModel = persion;
       update();
     }
+  }
+
+  bool checkLogin() {
+    if (persionModel.email == "" ||
+        persionModel.email == "guest" ||
+        persionModel.email == "none") {
+      return false;
+    }
+
+    return true;
   }
 
   void dangXuat() {

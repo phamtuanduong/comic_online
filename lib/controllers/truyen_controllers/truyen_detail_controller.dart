@@ -6,6 +6,8 @@ import 'package:comic_online/screens/read_view_screen/read_view_screen.dart';
 import 'package:comic_online/services/truyen_services/follow_service.dart';
 import 'package:comic_online/services/truyen_services/get_all_comment_service.dart';
 import 'package:comic_online/services/truyen_services/get_truyen_chapter_service.dart';
+import 'package:comic_online/services/truyen_services/get_truyen_service.dart';
+import 'package:comic_online/services/truyen_services/review_book_service.dart';
 import 'package:comic_online/shared/shared_preferences_data.dart';
 import 'package:comic_online/style/colors.dart';
 import 'package:comic_online/style/style.dart';
@@ -20,6 +22,8 @@ class TruyenDetailController extends GetxController
   bool isFollow = false;
   bool isLike = false;
   bool isReaded = false;
+
+  double userRate = 0;
 
   late int maxLine = 5;
 
@@ -201,5 +205,48 @@ class TruyenDetailController extends GetxController
   void readChapFirst() {
     Get.to(ReadViewScreen(
         _truyenModel.listChapters[_truyenModel.listChapters.length - 2]));
+  }
+
+  void rateBook(int rate) {
+    userRate = rate.toDouble();
+
+    update();
+  }
+
+  Future layDanhGia() async {
+    if (_truyenModel.reviewBookModel == null) {
+      await GetTruyenServices().layDanhGia(_truyenModel);
+    }
+    if (_truyenModel.reviewBookModel != null) {
+      userRate = _truyenModel.reviewBookModel!.rate.toDouble();
+    }
+  }
+
+  bool isReviewBook() {
+    return _truyenModel.reviewBookModel != null;
+  }
+
+  Future<bool> danhGia() async {
+    bool flag = true;
+
+    if (_truyenModel.reviewBookModel != null) {
+      flag = await ReviewBookService().update(_truyenModel, userRate.toInt());
+      _truyenModel.reviewBookModel!.rate = userRate.toInt();
+    } else {
+      flag = await ReviewBookService().postData(_truyenModel, userRate.toInt());
+    }
+    if (flag) {
+      await GetTruyenServices().resetRateBook(_truyenModel);
+
+      update();
+
+      Get.back();
+
+      Get.snackbar("Đánh giá", "Đánh gia truyện thành công",
+          colorText: Colors.white,
+          backgroundColor: primaryColor.withOpacity(0.6));
+    }
+
+    return flag;
   }
 }

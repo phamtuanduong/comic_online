@@ -7,3 +7,4 @@ export 'follow_book_model.dart';
 export 'truyen_chapter.dart';
 export 'his_truyen_model.dart';
 export 'comment_model.dart';
+export 'review_book_model.dart';

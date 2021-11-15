@@ -24,6 +24,8 @@ class TruyenModel {
 
   FollowBookModel? followBook;
 
+  ReviewBookModel? reviewBookModel;
+
   List<TruyenChapter> listChapters = [];
 
   List<CommentModel> listCommentsParent = [];
