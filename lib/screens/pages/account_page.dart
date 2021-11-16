@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:comic_online/constants.dart';
 import 'package:comic_online/controllers/account_page_controller.dart';
+import 'package:comic_online/controllers/home_controller.dart';
 import 'package:comic_online/screens/account_info/account_chang_pass_screen.dart';
 import 'package:comic_online/screens/account_info/account_info_screen.dart';
 import 'package:comic_online/screens/login/login_screen.dart';
@@ -11,14 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AccountPage extends StatelessWidget {
-  const AccountPage({Key? key}) : super(key: key);
-
+  const AccountPage({Key? key, required this.homeController}) : super(key: key);
+  final HomeController homeController;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: GetBuilder<AccountPageController>(
-          init: AccountPageController(),
+          init: AccountPageController(homeController),
           builder: (_c) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: !_c.checkLogin()

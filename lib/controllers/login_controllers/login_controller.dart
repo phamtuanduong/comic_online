@@ -59,6 +59,11 @@ class LoginController extends GetxController {
 
       if (flag) {
         SharedPreferenceData.instance.setToken(Global.token);
+
+        if (Global.controller != null) {
+          Global.controller!.changeIndex(0);
+        }
+
         Get.to(const HomeScreen());
       } else {
         update();

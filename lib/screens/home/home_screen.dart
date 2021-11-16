@@ -40,11 +40,11 @@ class HomeScreen extends StatelessWidget {
             child: TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _controller.tabController,
-              children: const [
-                TruyenPage(),
-                HistoryPage(),
-                FollowPage(),
-                AccountPage()
+              children: [
+                const TruyenPage(),
+                const HistoryPage(),
+                const FollowPage(),
+                AccountPage(homeController: _controller)
               ],
             ),
           ),
